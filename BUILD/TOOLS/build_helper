@@ -589,10 +589,9 @@ update_package_db() {
 
 #-------------------------------------------------------------------------------
 check_install_software() {
-  OPTION="-y"
 
   # remove incompatible softwares
-  $SUDO apt-get purge $OPTION \
+  $SUDO apt-get purge -y \
     libgnutls-dev  \
     'libgnutlsxx2?'  \
     nettle-dev  \
@@ -614,7 +613,7 @@ check_install_software() {
     git \
     pkg-config \
     subversion"
-  $SUDO apt-get install $OPTION $PACKAGE_LIST
+  $SUDO apt-get install -y $PACKAGE_LIST
   if [ $? -ne 0 ]; then
     echo_fatal "Failed to install package list $PACKAGE_LIST"
   fi
@@ -644,7 +643,7 @@ check_install_software() {
     openssl \
     check \
     python"
-  $SUDO apt-get install $OPTION $PACKAGE_LIST
+  $SUDO apt-get install -y $PACKAGE_LIST
   if [ $? -ne 0 ]; then
     echo_fatal "Failed to install package list $PACKAGE_LIST"
   fi
@@ -663,7 +662,7 @@ check_install_software() {
     iproute \
     vlan \
     tshark"
-  $SUDO apt-get install $OPTION $PACKAGE_LIST
+  $SUDO apt-get install -y $PACKAGE_LIST
   if [ $? -ne 0 ]; then
     echo_fatal "Failed to install package list $PACKAGE_LIST"
   fi
@@ -672,13 +671,16 @@ check_install_software() {
     check \
     libapache2-mod-php
     php \
-    phpmydmin \
     python-dev \
     python-pexpect \
     unzip"
-  $SUDO apt-get install $OPTION $PACKAGE_LIST
+  $SUDO apt-get install -y $PACKAGE_LIST
   if [ $? -ne 0 ]; then
     echo_fatal "Failed to install package list $PACKAGE_LIST"
+  fi
+
+  if [ $1 -eq 1 ]; then
+    $SUDO apt-get install -y phpmyadmin
   fi
 }
 
