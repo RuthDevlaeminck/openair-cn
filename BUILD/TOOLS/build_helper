@@ -649,12 +649,12 @@ check_install_software() {
     echo_fatal "Failed to install package list $PACKAGE_LIST"
   fi
 
-  install_nettle_from_source $1
-  install_gnutls_from_source $1
+  install_nettle_from_source 1
+  install_gnutls_from_source 1
 
-  install_freediameter_from_source $1
-  install_asn1c_from_source $1
-  install_libgtpnl_from_source $1
+  install_freediameter_from_source 1
+  install_asn1c_from_source 1
+  install_libgtpnl_from_source 1
 
   # Networking
   PACKAGE_LIST="\
@@ -672,7 +672,7 @@ check_install_software() {
     check \
     libapache2-mod-php
     php \
-    phpmyadmin \
+    phpmydmin \
     python-dev \
     python-pexpect \
     unzip"
