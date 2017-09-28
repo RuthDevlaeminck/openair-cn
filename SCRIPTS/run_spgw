@@ -48,7 +48,7 @@ function help()
   echo_error "Options:"
   echo_error "Mandatory arguments to long options are mandatory for short options too."
   echo_error "  -c, --config-file     file_abs_path Config file to be used by spgw if you don't want to use the default one: $g_spgw_default_config_file"
-  echo_error "  -d, --daemon                        Run the daemon."
+  echo_error "  -D, --daemon                        Run the daemon."
   echo_error "  -g, --gdb                           Run with GDB."
   echo_error "  -G, --gdb-cmd         cmd cmd_arg   Append this GDB cmd to GDB command file (ex1: break Attach.c:272, ex2: watch 0xffee0002)."
   echo_error "                                      All repetitions of this argument are valid."
