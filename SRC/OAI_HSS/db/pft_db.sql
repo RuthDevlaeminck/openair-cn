@@ -53,8 +53,7 @@ CREATE TABLE IF NOT EXISTS `mmeidentity` (
 --
 
 INSERT INTO `mmeidentity` (`idmmeidentity`, `mmehost`, `mmerealm`, `UE-Reachability`) VALUES
-(2, 'openair-cn.3gppnetwork.org', '3gppnetwork.org', 0),
-(1, 'ng40-erc.3gppnetwork.org', '3gppnetwork.org', 0);
+(1, 'oai-epc.3gppnetwork.org', '3gppnetwork.org', 0);
 
 -- --------------------------------------------------------
 
