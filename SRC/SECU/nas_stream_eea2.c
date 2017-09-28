@@ -61,8 +61,7 @@ nas_stream_encrypt_eea2 (
   /*
    * Other bits are 0
    */
-  // dleu nettle_aes128.set_encrypt_key (ctx, stream_cipher->key_length, stream_cipher->key);
-  nettle_aes128.set_encrypt_key (ctx, stream_cipher->key);
+  nettle_aes128.set_encrypt_key (ctx, stream_cipher->key_length, stream_cipher->key);
   nettle_ctr_crypt (ctx, nettle_aes128.encrypt, nettle_aes128.block_size, m, byte_length, data, stream_cipher->message);
 
   if (zero_bit > 0)
