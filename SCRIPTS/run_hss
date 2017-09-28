@@ -34,7 +34,7 @@ THIS_SCRIPT_PATH=$(dirname $(readlink -f $0))
 source $THIS_SCRIPT_PATH/../BUILD/TOOLS/build_helper
 
 declare    g_hss_default_config_file="/usr/local/etc/oai/hss.conf"
-declare    g_hss_default_fqdn="hss.openair4G.eur"
+declare    g_hss_default_fqdn="hss.3gppnetwork.org"
 
 function help()
 {

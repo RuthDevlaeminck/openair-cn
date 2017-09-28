@@ -35,7 +35,7 @@ source $THIS_SCRIPT_PATH/../BUILD/TOOLS/build_helper
 declare -i g_run_msc_gen=0
 declare    g_msc_dir="/tmp"
 declare    g_mme_default_config_file="/usr/local/etc/oai/mme.conf"
-declare    g_mme_default_fqdn=`hostname`".openair4G.eur"
+declare    g_mme_default_fqdn=`hostname`".3gppnetwork.org"
 
 set_openair_env 
 
@@ -200,8 +200,8 @@ function main()
     # hardcoded MME diameter ID 
     fqdn=`hostname --fqdn`
     if [ "a$fqdn" == "a" ]; then
-      echo_error "Please allow the IP resolution of MME FQDN (in /etc/hosts, example: 127.0.1.1 myhostname.openair4G.eur myhostname)."
-      echo_fatal "Please allow the IP resolution of HSS FQDN (in /etc/hosts, example: 127.0.1.1 hss.openair4G.eur hss if HSS run on MME host)."
+      echo_error "Please allow the IP resolution of MME FQDN (in /etc/hosts, example: 127.0.1.1 myhostname.3gppnetwork.org myhostname)."
+      echo_fatal "Please allow the IP resolution of HSS FQDN (in /etc/hosts, example: 127.0.1.1 hss.3gppnetwork.org hss if HSS run on MME host)."
     fi
 
     # generate certificates if necessary
