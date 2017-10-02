@@ -38,7 +38,7 @@ kdf (
   uint8_t * out,
   const unsigned out_len)
 {
-  struct hmac_sha256_ctx                  *ctx = calloc(1, sizeof(struct hmac_sha256_ctx));
+  struct hmac_sha256_ctx                  *ctx = calloc(10, sizeof(struct hmac_sha256_ctx));
 
   //memset (&ctx, 0, sizeof (ctx));
   hmac_sha256_set_key (ctx, key_len, key);
