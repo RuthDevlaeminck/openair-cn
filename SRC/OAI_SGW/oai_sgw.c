@@ -93,10 +93,11 @@ main (
     exit(EXIT_FAILURE);
   }
 
+  // openlog will redirect the output, if you run these the code will hang on fprintf to stderr
   /* Close out the standard file descriptors */
-  close(STDIN_FILENO);
-  close(STDOUT_FILENO);
-  close(STDERR_FILENO);
+//  close(STDIN_FILENO);
+//  close(STDOUT_FILENO);
+//  close(STDERR_FILENO);
 
   openlog(NULL, 0, LOG_DAEMON);
 
