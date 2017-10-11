@@ -322,6 +322,9 @@ install_libgtpnl_from_source() {
     $SUDO make install
     $SUDO ldconfig
     $SUDO rm -rf /tmp/libgtpnl*
+
+    $SUDO modprobe gtp
+    $SUDO echo "gtp" >> /etc/modules-load.d/modules.conf
   fi
 }
 #-------------------------------------------------------------------------------
