@@ -611,8 +611,11 @@ emm_proc_attach_reject (
     rc = _emm_attach_reject (&ue_ctx);
   } else {
     emm_data_context_t * emm_ctx_p = emm_data_context_get (&_emm_data, ue_id);
-    emm_ctx_p->emm_cause = emm_cause;
-    rc = _emm_attach_reject (emm_ctx_p);
+    if (emm_ctx_p)
+    {
+        emm_ctx_p->emm_cause = emm_cause;
+        rc = _emm_attach_reject (emm_ctx_p);
+    }
  }
   OAILOG_FUNC_RETURN (LOG_NAS_EMM, rc);
 }
