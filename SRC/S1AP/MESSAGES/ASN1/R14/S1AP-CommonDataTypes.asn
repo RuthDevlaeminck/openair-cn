@@ -1,0 +1,32 @@
+-- **************************************************************
+--
+-- Common definitions
+--
+-- **************************************************************
+
+S1AP-CommonDataTypes {
+itu-t (0) identified-organization (4) etsi (0) mobileDomain (0) 
+eps-Access (21) modules (3) s1ap (1) version1 (1) s1ap-CommonDataTypes (3) }
+
+DEFINITIONS AUTOMATIC TAGS ::= 
+
+BEGIN
+
+S1ap-Criticality		::= ENUMERATED { reject, ignore, notify }
+
+S1ap-Presence		::= ENUMERATED { optional, conditional, mandatory }
+
+S1ap-PrivateIE-ID	::= CHOICE {
+	local				INTEGER (0..65535),
+	global				OBJECT IDENTIFIER
+}
+
+S1ap-ProcedureCode		::= INTEGER (0..255)
+
+S1ap-ProtocolExtensionID	::= INTEGER (0..65535)
+
+S1ap-ProtocolIE-ID		::= INTEGER (0..65535)
+
+S1ap-TriggeringMessage	::= ENUMERATED { initiating-message, successful-outcome, unsuccessfull-outcome }
+
+END
