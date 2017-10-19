@@ -456,7 +456,9 @@ s6a_parse_subscription_data (
       break;
 
     default:
-      return RETURNerror;
+      // BJ
+      break;
+      // return RETURNerror;
     }
 
     /*

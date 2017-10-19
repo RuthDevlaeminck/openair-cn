@@ -344,7 +344,7 @@ s11_mme_handle_delete_session_response (
 
   hash_rc = hashtable_ts_free(s11_mme_teid_2_gtv2c_teid_handle, (hash_key_t) resp_p->teid);
 
-  DevAssert (HASH_TABLE_OK == hash_rc);
+  DevAssert (HASH_TABLE_OK == hash_rc || HASH_TABLE_KEY_NOT_EXISTS == hash_rc);
 
   return itti_send_msg_to_task (TASK_MME_APP, INSTANCE_DEFAULT, message_p);
 }

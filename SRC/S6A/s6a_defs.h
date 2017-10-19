@@ -171,6 +171,8 @@ extern s6a_fd_cnf_t s6a_fd_cnf;
 #define AVP_CODE_PDN_TYPE                          (1456)
 #define AVP_CODE_SUBSCRIBED_PERIODIC_RAU_TAU_TIMER (1619)
 
+#define AVP_CODE_ITEM_NUMBER                       (1419)
+
 int s6a_init(const mme_config_t *mme_config);
 
 int s6a_fd_new_peer(void);
