@@ -196,8 +196,8 @@ S1AP-ELEMENTARY-PROCEDURE ::= CLASS {
     &InitiatingMessage              ,
     &SuccessfulOutcome                          OPTIONAL,
     &UnsuccessfulOutcome                        OPTIONAL,
-    &procedureCode              ProcedureCode   UNIQUE,
-    &criticality                Criticality     DEFAULT ignore
+    &procedureCode              S1ap-ProcedureCode   UNIQUE,
+    &criticality                S1ap-Criticality     DEFAULT ignore
 }
 WITH SYNTAX {
     INITIATING MESSAGE          &InitiatingMessage
@@ -221,9 +221,9 @@ S1AP-PDU ::= CHOICE {
 }
 
 InitiatingMessage ::= SEQUENCE {
-    procedureCode   S1AP-ELEMENTARY-PROCEDURE.&procedureCode        ({S1AP-ELEMENTARY-PROCEDURES}),
-    criticality     S1AP-ELEMENTARY-PROCEDURE.&criticality          ({S1AP-ELEMENTARY-PROCEDURES}{@procedureCode}),
-    value           S1AP-ELEMENTARY-PROCEDURE.&InitiatingMessage    ({S1AP-ELEMENTARY-PROCEDURES}{@procedureCode})
+    procedureCode   S1AP-ELEMENTARY-PROCEDURE.&procedureCode        ({S1AP-ELEMENTARY-PROCEDURE}),
+    criticality     S1AP-ELEMENTARY-PROCEDURE.&criticality          ({S1AP-ELEMENTARY-PROCEDURE}{@procedureCode}),
+    value           S1AP-ELEMENTARY-PROCEDURE.&InitiatingMessage    ({S1AP-ELEMENTARY-PROCEDURE}{@procedureCode})
 }
 
 SuccessfulOutcome ::= SEQUENCE {

@@ -1631,7 +1631,7 @@ S1ap-RerouteNASRequest ::= SEQUENCE {
 S1ap-RerouteNASRequest-IEs S1AP-PROTOCOL-IES ::= {
     { ID id-eNB-UE-S1AP-ID          CRITICALITY reject  TYPE S1ap-ENB-UE-S1AP-ID         PRESENCE mandatory}|
     { ID id-MME-UE-S1AP-ID          CRITICALITY ignore  TYPE S1ap-MME-UE-S1AP-ID         PRESENCE optional}|
-    { ID id-S1-Message              CRITICALITY reject  TYPE S1ap-OCTET STRING           PRESENCE mandatory}|
+    { ID id-S1-Message              CRITICALITY reject  TYPE OCTET STRING           PRESENCE mandatory}|
     { ID id-MME-Group-ID            CRITICALITY reject  TYPE S1ap-MME-Group-ID           PRESENCE mandatory}|
     { ID id-Additional-GUTI         CRITICALITY ignore  TYPE S1ap-Additional-GUTI        PRESENCE optional}|
     { ID id-UE-Usage-Type           CRITICALITY ignore  TYPE S1ap-UE-Usage-Type          PRESENCE optional},

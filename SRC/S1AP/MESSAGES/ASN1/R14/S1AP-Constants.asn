@@ -19,8 +19,8 @@ BEGIN
 -- **************************************************************
 
 IMPORTS
-	S1ap-ProcedureCode,
-	S1ap-ProtocolIE-ID
+    S1ap-ProcedureCode,
+    S1ap-ProtocolIE-ID
 
 FROM S1AP-CommonDataTypes;
 
@@ -100,51 +100,51 @@ id-MMECPRelocationIndication                S1ap-ProcedureCode ::= 61
 --
 -- **************************************************************
 
-s1ap-maxPrivateIEs 						INTEGER ::= 65535
-s1ap-maxProtocolExtensions 				INTEGER ::= 65535
-s1ap-maxProtocolIEs						INTEGER ::= 65535
+s1ap-maxPrivateIEs                         INTEGER ::= 65535
+s1ap-maxProtocolExtensions                 INTEGER ::= 65535
+s1ap-maxProtocolIEs                        INTEGER ::= 65535
 -- **************************************************************
 --
 -- Lists
 --
 -- **************************************************************
 
-s1ap-maxnoofCSGs								INTEGER ::= 256
-s1ap-maxnoofE-RABs							INTEGER ::= 256
-s1ap-maxnoofTAIs								INTEGER ::= 256
-s1ap-maxnoofTACs								INTEGER ::= 256
-s1ap-maxnoofErrors							INTEGER ::= 256
-s1ap-maxnoofBPLMNs							INTEGER ::= 6
-s1ap-maxnoofPLMNsPerMME						INTEGER ::= 32
-s1ap-maxnoofEPLMNs							INTEGER ::= 15
-s1ap-maxnoofEPLMNsPlusOne					INTEGER ::= 16
-s1ap-maxnoofForbLACs							INTEGER ::= 4096
-s1ap-maxnoofForbTACs							INTEGER ::= 4096
-s1ap-maxnoofIndividualS1ConnectionsToReset	INTEGER ::= 256
-s1ap-maxnoofCells							INTEGER ::= 16
-s1ap-maxnoofCellsineNB						INTEGER ::= 256
-s1ap-maxnoofTAIforWarning					INTEGER ::= 65535
-s1ap-maxnoofCellID							INTEGER ::= 65535
-s1ap-maxnoofDCNs								INTEGER ::= 32 
-s1ap-maxnoofEmergencyAreaID					INTEGER ::= 65535
-s1ap-maxnoofCellinTAI						INTEGER ::= 65535
-s1ap-maxnoofCellinEAI						INTEGER ::= 65535
-s1ap-maxnoofeNBX2TLAs						INTEGER ::= 2
-s1ap-maxnoofeNBX2ExtTLAs						INTEGER ::= 16
-s1ap-maxnoofeNBX2GTPTLAs						INTEGER ::= 16
-s1ap-maxnoofRATs								INTEGER ::= 8
-s1ap-maxnoofGroupIDs							INTEGER ::= 65535
-s1ap-maxnoofMMECs							INTEGER ::= 256
-s1ap-maxnoofCellIDforMDT						INTEGER ::= 32
-s1ap-maxnoofTAforMDT							INTEGER ::= 8
-s1ap-maxnoofMDTPLMNs                         INTEGER ::= 16
-s1ap-maxnoofCellsforRestart                  INTEGER ::= 256
-s1ap-maxnoofRestartTAIs                      INTEGER ::= 2048
-s1ap-maxnoofRestartEmergencyAreaIDs          INTEGER ::= 256
-s1ap-maxEARFCN                               INTEGER ::= 262143
-s1ap-maxnoofMBSFNAreaMDT                     INTEGER ::= 8
-s1ap-maxnoofRecommendedCells                 INTEGER ::= 16
-s1ap-maxnoofRecommendedENBs                  INTEGER ::= 16
+s1ap-maxnoofCSGs                              INTEGER ::= 256
+s1ap-maxnoofE-RABs                            INTEGER ::= 256
+s1ap-maxnoofTAIs                              INTEGER ::= 256
+s1ap-maxnoofTACs                              INTEGER ::= 256
+s1ap-maxnoofErrors                            INTEGER ::= 256
+s1ap-maxnoofBPLMNs                            INTEGER ::= 6
+s1ap-maxnoofPLMNsPerMME                       INTEGER ::= 32
+s1ap-maxnoofEPLMNs                            INTEGER ::= 15
+s1ap-maxnoofEPLMNsPlusOne                     INTEGER ::= 16
+s1ap-maxnoofForbLACs                          INTEGER ::= 4096
+s1ap-maxnoofForbTACs                          INTEGER ::= 4096
+s1ap-maxnoofIndividualS1ConnectionsToReset    INTEGER ::= 256
+s1ap-maxnoofCells                             INTEGER ::= 16
+s1ap-maxnoofCellsineNB                        INTEGER ::= 256
+s1ap-maxnoofTAIforWarning                     INTEGER ::= 65535
+s1ap-maxnoofCellID                            INTEGER ::= 65535
+s1ap-maxnoofDCNs                              INTEGER ::= 32 
+s1ap-maxnoofEmergencyAreaID                   INTEGER ::= 65535
+s1ap-maxnoofCellinTAI                         INTEGER ::= 65535
+s1ap-maxnoofCellinEAI                         INTEGER ::= 65535
+s1ap-maxnoofeNBX2TLAs                         INTEGER ::= 2
+s1ap-maxnoofeNBX2ExtTLAs                      INTEGER ::= 16
+s1ap-maxnoofeNBX2GTPTLAs                      INTEGER ::= 16
+s1ap-maxnoofRATs                              INTEGER ::= 8
+s1ap-maxnoofGroupIDs                          INTEGER ::= 65535
+s1ap-maxnoofMMECs                             INTEGER ::= 256
+s1ap-maxnoofCellIDforMDT                      INTEGER ::= 32
+s1ap-maxnoofTAforMDT                          INTEGER ::= 8
+s1ap-maxnoofMDTPLMNs                          INTEGER ::= 16
+s1ap-maxnoofCellsforRestart                   INTEGER ::= 256
+s1ap-maxnoofRestartTAIs                       INTEGER ::= 2048
+s1ap-maxnoofRestartEmergencyAreaIDs           INTEGER ::= 256
+s1ap-maxEARFCN                                INTEGER ::= 262143
+s1ap-maxnoofMBSFNAreaMDT                      INTEGER ::= 8
+s1ap-maxnoofRecommendedCells                  INTEGER ::= 16
+s1ap-maxnoofRecommendedENBs                   INTEGER ::= 16
 
 -- **************************************************************
 --
