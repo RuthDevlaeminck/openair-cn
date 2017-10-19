@@ -13,8 +13,6 @@ function install_service_file()
   cp $SERVICE_TEMPLATE $SERVICE_FILE
   sed -i -e "s:%OPENAIRCN_DIR%:$OPENAIRCN_DIR:g" $SERVICE_FILE 
   sed -i -e "s:%SERVICE%:$SERVICE:g" $SERVICE_FILE 
-
-  systemctl enable $SERVICE
 }
 
 install_service_file "hss"
