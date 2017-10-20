@@ -111,13 +111,12 @@ apply_access_restriction (
    */
   memcpy (hmcc, &imsi_hex[0], 3);
 
+/**
   if (memcmp (vmcc, hmcc, 3) != 0) {
     FPRINTF_ERROR ( "Only France MCC is handled for now, got imsi plmn %u.%u for a visited plmn %u.%u\n", FORMAT_MCC (hmcc), FORMAT_MNC (hmnc), FORMAT_MCC (vmcc), FORMAT_MNC (vmnc));
-    /*
-     * Reject the association
-     */
     return -1;
   }
+**/
 
   /*
    * In France MNC is composed of 2 digits and thus imsi by 14 digit
@@ -125,10 +124,12 @@ apply_access_restriction (
   hmnc[0] = 0;
   memcpy (&hmnc[1], &imsi_hex[3], 2);
 
+/**
   if ((memcmp (vmcc, hmcc, 3) != 0) && (memcmp (vmnc, hmnc, 3) != 0)) {
     FPRINTF_ERROR ( "UE is roaming from %u.%u to %u.%u which is not allowed" " by the ODB\n", FORMAT_MCC (hmcc), FORMAT_MNC (hmnc), FORMAT_MCC (vmcc), FORMAT_MNC (vmnc));
     return -1;
   }
+**/
 
   /*
    * User has successfully passed all the checking -> accept the association

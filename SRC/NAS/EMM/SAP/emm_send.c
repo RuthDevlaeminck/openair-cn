@@ -211,11 +211,12 @@ emm_send_attach_accept (
         OAILOG_INFO (LOG_NAS_EMM,
                      "EMMAS-SAP - EMM CAUSE: CS DOMAIN NOT AVAILABLE\n");
       } else {  // No additional information
+        // BAIJIAN
         // TODO: eventually handle this case differently?
-        emm_msg->emmcause = EMM_CAUSE_CS_DOMAIN_NOT_AVAILABLE;
-        emm_msg->presencemask |= ATTACH_ACCEPT_EMM_CAUSE_PRESENT;
-        OAILOG_INFO (LOG_NAS_EMM,
-                     "EMMAS-SAP - EMM CAUSE: CS DOMAIN NOT AVAILABLE\n");
+        // emm_msg->emmcause = EMM_CAUSE_CS_DOMAIN_NOT_AVAILABLE;
+        // emm_msg->presencemask |= ATTACH_ACCEPT_EMM_CAUSE_PRESENT;
+        // OAILOG_INFO (LOG_NAS_EMM,
+        //             "EMMAS-SAP - EMM CAUSE: CS DOMAIN NOT AVAILABLE\n");
       }
     }
     break;
