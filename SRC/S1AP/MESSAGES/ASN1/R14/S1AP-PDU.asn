@@ -11,12 +11,20 @@ IMPORTS
     S1ap-Criticality,
     S1ap-ProcedureCode,
     S1ap-ProtocolIE-ID
-
 FROM S1AP-CommonDataTypes
 
-    s1ap-maxProtocolIEs
+    s1ap-maxProtocolIEs,
+    s1ap-maxnoofE-RABs
+FROM S1AP-Constants
 
-FROM S1AP-Constants;
+    S1ap-CSGMembershipStatus,
+    S1ap-CSG-Id,
+    S1ap-CellAccessMode,
+    S1ap-PLMNidentity,
+    S1ap-IE-Extensions,
+    S1ap-E-RAB-ID
+FROM S1AP-IEs;
+
 
 S1AP-PDU ::= CHOICE {
     initiatingMessage       S1ap-InitiatingMessage,
@@ -402,6 +410,505 @@ S1ap-UplinkNonUEAssociatedLPPaTransport ::= SEQUENCE {
     s1ap-UplinkNonUEAssociatedLPPaTransport-ies SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
     ...
 }
+
+
+-- **************************************************************
+--
+-- E-RAB MODIFICATION INDICATION ELEMENTARY PROCEDURE
+--
+-- **************************************************************
+
+-- **************************************************************
+--
+-- E-RAB Modification Indication
+--
+-- **************************************************************
+
+S1ap-E-RABModificationIndication ::= SEQUENCE {
+    s1ap-E-RABModificationIndicationIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-E-RABModificationIndication ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { { S1ap-E-RABModificationIndicationIEs} },
+--    ...
+--}
+
+--S1ap-E-RABModificationIndicationIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID                          CRITICALITY reject  TYPE S1ap-MME-UE-S1AP-ID                     PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID                          CRITICALITY reject  TYPE S1ap-ENB-UE-S1AP-ID                     PRESENCE mandatory}|
+--    { ID id-E-RABToBeModifiedListBearerModInd       CRITICALITY reject  TYPE S1ap-E-RABToBeModifiedListBearerModInd      PRESENCE mandatory}|
+--    { ID id-E-RABNotToBeModifiedListBearerModInd    CRITICALITY reject  TYPE S1ap-E-RABNotToBeModifiedListBearerModInd   PRESENCE optional}|
+--    { ID id-CSGMembershipInfo                       CRITICALITY reject  TYPE S1ap-CSGMembershipInfo                  PRESENCE optional}|
+---- Extension for Release 11 to support BBAI -- 
+--    { ID id-Tunnel-Information-for-BBF              CRITICALITY ignore  TYPE S1ap-TunnelInformation                  PRESENCE optional},
+--    ...
+--}
+
+
+S1ap-E-RABToBeModifiedListBearerModInd ::= SEQUENCE {
+    s1ap-E-RABToBeModifiedItemBearerModIndIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-E-RABToBeModifiedListBearerModInd ::= E-RAB-IE-ContainerList { {S1ap-E-RABToBeModifiedItemBearerModIndIEs} }
+
+--S1ap-E-RABToBeModifiedItemBearerModIndIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-E-RABToBeModifiedItemBearerModInd       CRITICALITY reject  TYPE S1ap-E-RABToBeModifiedItemBearerModInd      PRESENCE mandatory},
+--    ...
+--}
+
+--S1ap-E-RABToBeModifiedItemBearerModInd ::= SEQUENCE {
+--    e-RAB-ID                        S1ap-E-RAB-ID,
+--    transportLayerAddress           S1ap-TransportLayerAddress,
+--    dL-GTP-TEID                     S1ap-GTP-TEID,
+--    iE-Extensions                   ProtocolExtensionContainer { { S1ap-E-RABToBeModifiedItemBearerModInd-ExtIEs} }          OPTIONAL,
+--    ...
+--}
+
+--S1ap-E-RABToBeModifiedItemBearerModInd-ExtIEs S1AP-PROTOCOL-EXTENSION ::= {
+--    ...
+--}
+
+S1ap-E-RABNotToBeModifiedListBearerModInd ::= SEQUENCE {
+    s1ap-E-RABNotToBeModifiedItemBearerModIndIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-E-RABNotToBeModifiedListBearerModInd ::= E-RAB-IE-ContainerList { {S1ap-E-RABNotToBeModifiedItemBearerModIndIEs} }
+
+--S1ap-E-RABNotToBeModifiedItemBearerModIndIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-E-RABNotToBeModifiedItemBearerModInd        CRITICALITY reject  TYPE S1ap-E-RABNotToBeModifiedItemBearerModInd       PRESENCE mandatory},
+--    ...
+--}
+
+--S1ap-E-RABNotToBeModifiedItemBearerModInd ::= SEQUENCE {
+--    e-RAB-ID                        S1ap-E-RAB-ID,
+--    transportLayerAddress           S1ap-TransportLayerAddress,
+--    dL-GTP-TEID                     S1ap-GTP-TEID,
+--    iE-Extensions                   ProtocolExtensionContainer { { S1ap-E-RABNotToBeModifiedItemBearerModInd-ExtIEs} }       OPTIONAL,
+--    ...
+--}
+
+--S1ap-E-RABNotToBeModifiedItemBearerModInd-ExtIEs S1AP-PROTOCOL-EXTENSION ::= {
+--    ...
+--}
+
+S1ap-CSGMembershipInfo ::= SEQUENCE {
+    cSGMembershipStatus     S1ap-CSGMembershipStatus,
+    cSG-Id                  S1ap-CSG-Id,
+    cellAccessMode          S1ap-CellAccessMode  OPTIONAL,
+    pLMNidentity            S1ap-PLMNidentity    OPTIONAL,
+    -- iE-Extensions           ProtocolExtensionContainer { { S1ap-CSGMembershipInfo-ExtIEs} }      OPTIONAL,
+    iE-Extensions           S1ap-IE-Extensions      OPTIONAL,
+    ...
+}
+
+--CSGMembershipInfo-ExtIEs S1AP-PROTOCOL-EXTENSION ::= {
+--    ...
+--}
+
+-- **************************************************************
+--
+-- E-RAB Modification Confirm
+--
+-- **************************************************************
+
+S1ap-E-RABModificationConfirm ::= SEQUENCE {
+    s1ap-E-RABModificationConfirmIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-E-RABModificationConfirm ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container { {S1ap-E-RABModificationConfirmIEs} },
+--    ...
+--}
+
+--S1ap-E-RABModificationConfirmIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID                          CRITICALITY ignore  TYPE S1ap-MME-UE-S1AP-ID                 PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID                          CRITICALITY ignore  TYPE S1ap-ENB-UE-S1AP-ID                 PRESENCE mandatory}|
+--    { ID id-E-RABModifyListBearerModConf            CRITICALITY ignore  TYPE S1ap-E-RABModifyListBearerModConf   PRESENCE optional}|
+--    { ID id-E-RABFailedToModifyListBearerModConf    CRITICALITY ignore  TYPE S1ap-E-RABList                      PRESENCE optional}|
+--    { ID id-E-RABToBeReleasedListBearerModConf      CRITICALITY ignore  TYPE S1ap-E-RABList                      PRESENCE optional}|
+--    { ID id-CriticalityDiagnostics                  CRITICALITY ignore  TYPE S1ap-CriticalityDiagnostics     PRESENCE optional}|
+--    { ID id-CSGMembershipStatus                     CRITICALITY ignore  TYPE S1ap-CSGMembershipStatus            PRESENCE optional},
+--    ...
+--}
+
+S1ap-E-RABModifyListBearerModConf ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+
+--S1ap-E-RABModifyListBearerModConf ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF ProtocolIE-SingleContainer { {S1ap-E-RABModifyItemBearerModConfIEs} }
+
+--S1ap-E-RABModifyItemBearerModConfIEs     S1AP-PROTOCOL-IES ::= {
+--    { ID id-E-RABModifyItemBearerModConf        CRITICALITY ignore  TYPE S1ap-E-RABModifyItemBearerModConf       PRESENCE mandatory},
+--    ...
+--}
+
+S1ap-E-RABModifyItemBearerModConf ::= SEQUENCE {
+    e-RAB-ID                    S1ap-E-RAB-ID,
+    -- iE-Extensions               ProtocolExtensionContainer { {S1ap-E-RABModifyItemBearerModConfExtIEs} } OPTIONAL,
+    iE-Extensions               S1ap-IE-Extensions OPTIONAL,
+    ...
+}
+
+--S1ap-E-RABModifyItemBearerModConfExtIEs S1AP-PROTOCOL-EXTENSION ::= {
+--    ...
+--}
+
+-- **************************************************************
+--
+-- UE CONTEXT MODIFICATION INDICATION ELEMENTARY PROCEDURE
+--
+-- **************************************************************
+
+-- **************************************************************
+--
+-- UE Context Modification Indication
+--
+-- **************************************************************
+
+S1ap-UEContextModificationIndication ::= SEQUENCE {
+    s1ap-UEContextModificationIndicationIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEContextModificationIndication ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { { S1ap-UEContextModificationIndicationIEs} },
+--    ...
+--}
+
+--S1ap-UEContextModificationIndicationIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID          CRITICALITY reject  TYPE S1ap-MME-UE-S1AP-ID         PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID          CRITICALITY reject  TYPE S1ap-ENB-UE-S1AP-ID         PRESENCE mandatory}|
+--    { ID id-CSGMembershipInfo       CRITICALITY reject  TYPE S1ap-CSGMembershipInfo      PRESENCE optional},
+--    ...
+--}
+
+
+-- **************************************************************
+--
+-- UE Context Modification Confirm
+--
+-- **************************************************************
+
+S1ap-UEContextModificationConfirm ::= SEQUENCE {
+    s1ap-UEContextModificationConfirmIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEContextModificationConfirm ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container { {S1ap-UEContextModificationConfirmIEs} },
+--    ...
+--}
+
+--S1ap-UEContextModificationConfirmIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID              CRITICALITY ignore  TYPE S1ap-MME-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID              CRITICALITY ignore  TYPE S1ap-ENB-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-CSGMembershipStatus         CRITICALITY ignore  TYPE S1ap-CSGMembershipStatus        PRESENCE optional}|
+--    { ID id-CriticalityDiagnostics      CRITICALITY ignore  TYPE S1ap-CriticalityDiagnostics     PRESENCE optional},
+--    ...
+--}
+
+-- **************************************************************
+--
+-- UE CONTEXT SUSPEND ELEMENTARY PROCEDURE
+--
+-- **************************************************************
+
+-- **************************************************************
+--
+-- UE Context Suspend Request
+--
+-- **************************************************************
+
+S1ap-UEContextSuspendRequest ::= SEQUENCE {
+    s1ap-UEContextSuspendRequestIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEContextSuspendRequest ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { { S1ap-UEContextSuspendRequestIEs} },
+--    ...
+--}
+
+--S1ap-UEContextSuspendRequestIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID                                  CRITICALITY reject  TYPE S1ap-MME-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID                                  CRITICALITY reject  TYPE S1ap-ENB-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-InformationOnRecommendedCellsAndENBsForPaging   CRITICALITY ignore  TYPE S1ap-InformationOnRecommendedCellsAndENBsForPaging PRESENCE optional}|
+--    { ID id-CellIdentifierAndCELevelForCECapableUEs         CRITICALITY ignore  TYPE S1ap-CellIdentifierAndCELevelForCECapableUEs    PRESENCE optional},
+--    ...
+--}
+
+-- **************************************************************
+--
+-- UE Context Suspend Response
+--
+-- **************************************************************
+
+S1ap-UEContextSuspendResponse ::= SEQUENCE {
+    s1ap-UEContextSuspendResponseIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEContextSuspendResponse ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container { {S1ap-UEContextSuspendResponseIEs} },
+--    ...
+--}
+
+--S1ap-UEContextSuspendResponseIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID              CRITICALITY ignore  TYPE S1ap-MME-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID              CRITICALITY ignore  TYPE S1ap-ENB-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-CriticalityDiagnostics      CRITICALITY ignore  TYPE S1ap-CriticalityDiagnostics     PRESENCE optional}|
+--    { ID id-SecurityContext             CRITICALITY reject  TYPE S1ap-SecurityContext            PRESENCE optional},
+--    ...
+--}
+
+-- **************************************************************
+--
+-- UE CONTEXT RESUME ELEMENTARY PROCEDURE
+--
+-- **************************************************************
+
+-- **************************************************************
+--
+-- UE Context Resume Request
+--
+-- **************************************************************
+
+S1ap-UEContextResumeRequest ::= SEQUENCE {
+    s1ap-UEContextResumeRequestIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEContextResumeRequest ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { { S1ap-UEContextResumeRequestIEs} },
+--    ...
+--}
+
+--S1ap-UEContextResumeRequestIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID                                      CRITICALITY reject  TYPE S1ap-MME-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID                                  CRITICALITY reject  TYPE S1ap-ENB-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-E-RABFailedToResumeListResumeReq                CRITICALITY reject  TYPE S1ap-E-RABFailedToResumeListResumeReq       PRESENCE optional}|
+--    { ID id-RRC-Resume-Cause                                CRITICALITY ignore  TYPE S1ap-RRC-Establishment-Cause    PRESENCE optional},
+--    ...
+--}
+
+S1ap-E-RABFailedToResumeListResumeReq ::= SEQUENCE {
+    s1ap-E-RABFailedToResumeItemResumeReqIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+--S1ap-E-RABFailedToResumeListResumeReq ::= E-RAB-IE-ContainerList { {S1ap-E-RABFailedToResumeItemResumeReqIEs} }
+
+--S1ap-E-RABFailedToResumeItemResumeReqIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-E-RABFailedToResumeItemResumeReq    CRITICALITY reject  TYPE S1ap-E-RABFailedToResumeItemResumeReq   PRESENCE mandatory},
+--    ...
+--}
+
+--S1ap-E-RABFailedToResumeItemResumeReq ::= SEQUENCE {
+--    e-RAB-ID                            S1ap-E-RAB-ID,
+--    cause                               S1ap-Cause,
+--    iE-Extensions                       ProtocolExtensionContainer { { S1ap-E-RABFailedToResumeItemResumeReq-ExtIEs} }       OPTIONAL,
+--    ...
+--}
+
+--S1ap-E-RABFailedToResumeItemResumeReq-ExtIEs S1AP-PROTOCOL-EXTENSION ::= {
+--    ...
+--}
+
+-- **************************************************************
+--
+-- UE Context Resume Response
+--
+-- **************************************************************
+
+S1ap-UEContextResumeResponse ::= SEQUENCE {
+    s1ap-UEContextResumeResponseIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEContextResumeResponse ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { { S1ap-UEContextResumeResponseIEs} },
+--    ...
+--}
+
+--S1ap-UEContextResumeResponseIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID                      CRITICALITY ignore  TYPE S1ap-MME-UE-S1AP-ID                         PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID                      CRITICALITY ignore  TYPE S1ap-ENB-UE-S1AP-ID                         PRESENCE mandatory}|
+--    { ID id-E-RABFailedToResumeListResumeRes    CRITICALITY reject  TYPE S1ap-E-RABFailedToResumeListResumeRes       PRESENCE optional}|
+--    { ID id-CriticalityDiagnostics              CRITICALITY ignore  TYPE S1ap-CriticalityDiagnostics                 PRESENCE optional}|
+--    { ID id-SecurityContext                     CRITICALITY reject  TYPE S1ap-SecurityContext                        PRESENCE optional},
+--    ...
+--}
+
+S1ap-E-RABFailedToResumeListResumeRes ::= SEQUENCE {
+    s1ap-E-RABFailedToResumeItemResumeResIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-E-RABFailedToResumeListResumeRes ::= E-RAB-IE-ContainerList { {S1ap-E-RABFailedToResumeItemResumeResIEs} }
+
+--S1ap-E-RABFailedToResumeItemResumeResIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-E-RABFailedToResumeItemResumeRes    CRITICALITY reject  TYPE S1ap-E-RABFailedToResumeItemResumeRes   PRESENCE mandatory},
+--    ...
+--}
+
+--S1ap-E-RABFailedToResumeItemResumeRes ::= SEQUENCE {
+--    e-RAB-ID                            S1ap-E-RAB-ID,
+--    cause                               S1ap-Cause,
+--    iE-Extensions                       ProtocolExtensionContainer { { S1ap-E-RABFailedToResumeItemResumeRes-ExtIEs} }       OPTIONAL,
+--    ...
+--}
+
+--E-RABFailedToResumeItemResumeRes-ExtIEs S1AP-PROTOCOL-EXTENSION ::= {
+--    ...
+--}
+
+-- **************************************************************
+--
+-- UE Context Resume Failure
+--
+-- **************************************************************
+
+S1ap-UEContextResumeFailure ::= SEQUENCE {
+    s1ap-UEContextResumeFailureIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEContextResumeFailure ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { { S1ap-UEContextResumeFailureIEs} },
+--    ...
+--}
+
+--S1ap-UEContextResumeFailureIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID                      CRITICALITY ignore  TYPE S1ap-MME-UE-S1AP-ID                     PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID                      CRITICALITY ignore  TYPE S1ap-ENB-UE-S1AP-ID                     PRESENCE mandatory}|
+--    { ID id-Cause                               CRITICALITY ignore  TYPE S1ap-Cause                              PRESENCE mandatory}|
+--    { ID id-CriticalityDiagnostics              CRITICALITY ignore  TYPE S1ap-CriticalityDiagnostics             PRESENCE optional},
+--    ...
+--}
+
+-- **************************************************************
+--
+-- Connection Establishment Indication
+--
+-- **************************************************************
+
+S1ap-ConnectionEstablishmentIndication::= SEQUENCE {
+    s1ap-ConnectionEstablishmentIndicationIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-ConnectionEstablishmentIndication::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container { {S1ap-ConnectionEstablishmentIndicationIEs} },
+--    ...
+--}
+
+--S1ap-ConnectionEstablishmentIndicationIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID              CRITICALITY ignore  TYPE S1ap-MME-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID              CRITICALITY ignore  TYPE S1ap-ENB-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-UERadioCapability           CRITICALITY ignore  TYPE S1ap-UERadioCapability          PRESENCE optional }|
+--    { ID id-EnhancedCoverageRestricted  CRITICALITY ignore  TYPE S1ap-EnhancedCoverageRestricted PRESENCE optional }|
+--    { ID id-DL-CP-SecurityInformation   CRITICALITY ignore  TYPE S1ap-DL-CP-SecurityInformation  PRESENCE optional },
+--    ...
+--}
+
+-- **************************************************************
+--
+-- Retrieve UE Information 
+--
+-- **************************************************************
+
+S1ap-RetrieveUEInformation ::= SEQUENCE {
+    s1ap-RetrieveUEInformationIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-RetrieveUEInformation ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { { S1ap-RetrieveUEInformationIEs} },
+--    ...
+--}
+
+--S1ap-RetrieveUEInformationIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-S-TMSI                      CRITICALITY reject  TYPE S1ap-S-TMSI             PRESENCE mandatory},
+--...
+--}
+
+
+-- **************************************************************
+
+-- UE Information Transfer
+--
+-- **************************************************************
+
+S1ap-UEInformationTransfer ::= SEQUENCE {
+    s1ap-UEInformationTransferIEs SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-UEInformationTransfer ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container       { {  S1ap-UEInformationTransferIEs} },
+--    ...
+--}
+
+--S1ap-UEInformationTransferIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-S-TMSI                      CRITICALITY reject  TYPE S1ap-S-TMSI                     PRESENCE mandatory}|
+--    { ID id-UE-Level-QoS-Parameters     CRITICALITY ignore  TYPE S1ap-E-RABLevelQoSParameters    PRESENCE optional}|
+--    { ID id-UERadioCapability           CRITICALITY ignore  TYPE S1ap-UERadioCapability          PRESENCE optional},
+--    ...
+--}
+
+
+-- **************************************************************
+--
+-- eNB CP Relocation Indication
+--
+-- **************************************************************
+
+S1ap-ENBCPRelocationIndication ::= SEQUENCE {
+    s1ap-ENBCPRelocationIndication SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-ENBCPRelocationIndication ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container { { S1ap-ENBCPRelocationIndicationIEs} },
+--    ...
+--}
+
+--S1ap-ENBCPRelocationIndicationIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-eNB-UE-S1AP-ID              CRITICALITY reject  TYPE S1ap-ENB-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-S-TMSI                      CRITICALITY reject  TYPE S1ap-S-TMSI                     PRESENCE mandatory}|
+--    { ID id-EUTRAN-CGI                  CRITICALITY ignore  TYPE S1ap-EUTRAN-CGI                 PRESENCE mandatory}|
+--    { ID id-TAI                         CRITICALITY ignore  TYPE S1ap-TAI                        PRESENCE mandatory}|
+--    { ID id-UL-CP-SecurityInformation   CRITICALITY reject  TYPE S1ap-UL-CP-SecurityInformation  PRESENCE mandatory},
+--    ...
+--}
+
+
+-- **************************************************************
+--
+-- MME CP Relocation Indication
+--
+-- **************************************************************
+
+S1ap-MMECPRelocationIndication ::= SEQUENCE {
+    s1ap-MMECPRelocationIndication SEQUENCE (SIZE (0..s1ap-maxProtocolIEs)) OF S1ap-IE,
+    ...
+}
+
+--S1ap-MMECPRelocationIndication ::= SEQUENCE {
+--    protocolIEs         ProtocolIE-Container { { S1ap-MMECPRelocationIndicationIEs} },
+--    ...
+--}
+
+--S1ap-MMECPRelocationIndicationIEs S1AP-PROTOCOL-IES ::= {
+--    { ID id-MME-UE-S1AP-ID              CRITICALITY reject  TYPE S1ap-MME-UE-S1AP-ID             PRESENCE mandatory}|
+--    { ID id-eNB-UE-S1AP-ID              CRITICALITY reject  TYPE S1ap-ENB-UE-S1AP-ID             PRESENCE mandatory},
+--    ...
+--}
+
+
+
+
 
 S1ap-IE ::= SEQUENCE {
     id          S1ap-ProtocolIE-ID,

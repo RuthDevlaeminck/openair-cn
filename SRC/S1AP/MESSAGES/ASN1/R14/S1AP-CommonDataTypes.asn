@@ -281,7 +281,7 @@ S1ap-ProtocolIE-ID      ::= INTEGER {
     id-SON-Information-Report                       (206),
     id-Muting-Availability-Indication               (207),
     id-Muting-Pattern-Information                   (208),
-    id-Synchronisation-Information                  (209),
+    id-Synchronization-Information                  (209),
     id-E-RABToBeReleasedListBearerModConf           (210),
     id-AssistanceDataForPaging                      (211),
     id-CellIdentifierAndCELevelForCECapableUEs      (212),
