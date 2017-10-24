@@ -197,7 +197,9 @@ emm_send_attach_accept (
     OAILOG_DEBUG (LOG_NAS_EMM,
                   "EMMAS-SAP - Combined EPS/IMSI attach unsupported, "
                   "defaulting to EPS attach\n");
-    emm_msg->epsattachresult = EPS_ATTACH_RESULT_EPS;
+    // RUTH
+    emm_msg->epsattachresult = EPS_ATTACH_RESULT_EPS_IMSI;
+    //emm_msg->epsattachresult = EPS_ATTACH_RESULT_EPS;
     if (MAX > ue_ctx->additional_update_type) {
       OAILOG_DEBUG (LOG_NAS_EMM,
                     "EMMAS-SAP - Discovered additional update type\n");
@@ -211,7 +213,7 @@ emm_send_attach_accept (
         OAILOG_INFO (LOG_NAS_EMM,
                      "EMMAS-SAP - EMM CAUSE: CS DOMAIN NOT AVAILABLE\n");
       } else {  // No additional information
-        // BAIJIAN
+        // BJ
         // TODO: eventually handle this case differently?
         // emm_msg->emmcause = EMM_CAUSE_CS_DOMAIN_NOT_AVAILABLE;
         // emm_msg->presencemask |= ATTACH_ACCEPT_EMM_CAUSE_PRESENT;
