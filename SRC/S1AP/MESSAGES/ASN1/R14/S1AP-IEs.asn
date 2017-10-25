@@ -84,7 +84,6 @@ IMPORTS
     s1ap-maxProtocolExtensions,
     s1ap-maxnoofIndividualS1ConnectionsToReset,
     s1ap-maxnoofTAIs
-
 FROM S1AP-Constants
 
     S1ap-IE
@@ -109,7 +108,7 @@ S1ap-IE-Extensions ::= SEQUENCE (SIZE (1..s1ap-maxProtocolExtensions)) OF S1ap-I
 S1ap-Additional-GUTI::= SEQUENCE {
     gUMMEI                  S1ap-GUMMEI,
     m-TMSI                  S1ap-M-TMSI,
-    -- iE-Extensions           ProtocolExtensionContainer { {S1ap-Additional-GUTI-ExtIEs} } OPTIONAL,
+    --iE-Extensions           ProtocolExtensionContainer { {S1ap-Additional-GUTI-ExtIEs} } OPTIONAL,
     iE-Extensions           S1ap-IE-Extensions OPTIONAL,
     ...
 }
@@ -176,8 +175,8 @@ S1ap-AssistanceDataForRecommendedCells ::= SEQUENCE {
 
 -- B
 
--- S1ap-Bearers-SubjectToStatusTransferList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF ProtocolIE-SingleContainer { S1ap-Bearers-SubjectToStatusTransfer-ItemIEs }
 S1ap-Bearers-SubjectToStatusTransfer-List ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+-- S1ap-Bearers-SubjectToStatusTransferList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF ProtocolIE-SingleContainer { S1ap-Bearers-SubjectToStatusTransfer-ItemIEs }
 
 --S1ap-Bearers-SubjectToStatusTransfer-ItemIEs S1AP-PROTOCOL-IES ::= {
 --    { ID id-Bearers-SubjectToStatusTransfer-Item    CRITICALITY ignore  TYPE S1ap-Bearers-SubjectToStatusTransfer-Item   PRESENCE mandatory  },
@@ -795,58 +794,6 @@ S1ap-EventType   ::= ENUMERATED {
 
 S1ap-E-RAB-ID        ::= INTEGER (0..15, ...)
 
-S1ap-E-RABDataForwardingItem ::= SEQUENCE {
-    e-RAB-ID                            S1ap-E-RAB-ID,
-    dL-transportLayerAddress            S1ap-TransportLayerAddress                                                   OPTIONAL,
-    dL-gTP-TEID                         S1ap-GTP-TEID                                                                OPTIONAL,
-    uL-TransportLayerAddress            S1ap-TransportLayerAddress                                                   OPTIONAL,
-    uL-GTP-TEID                         S1ap-GTP-TEID                                                                OPTIONAL,
---    iE-Extensions                       ProtocolExtensionContainer { { E-RABDataForwardingItem-ExtIEs} }    OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABToBeSetupItemHOReq ::= SEQUENCE {
-    e-RAB-ID                            S1ap-E-RAB-ID,
-    transportLayerAddress               S1ap-TransportLayerAddress,
-    gTP-TEID                            S1ap-GTP-TEID,
-    e-RABlevelQosParameters             S1ap-E-RABLevelQoSParameters,
-    -- iE-Extensions                       ProtocolExtensionContainer { {E-RABToBeSetupItemHOReq-ExtIEs} }         OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABAdmittedItem ::= SEQUENCE {
-    e-RAB-ID                        S1ap-E-RAB-ID,
-    transportLayerAddress           S1ap-TransportLayerAddress,
-    gTP-TEID                        S1ap-GTP-TEID,
-    dL-transportLayerAddress        S1ap-TransportLayerAddress   OPTIONAL,
-    dL-gTP-TEID                     S1ap-GTP-TEID                OPTIONAL,
-    uL-TransportLayerAddress        S1ap-TransportLayerAddress   OPTIONAL,
-    uL-GTP-TEID                     S1ap-GTP-TEID                OPTIONAL,
-    -- iE-Extensions                   ProtocolExtensionContainer { {E-RABAdmittedItem-ExtIEs} }   OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABToBeSwitchedDLItem ::= SEQUENCE {
-    e-RAB-ID                            S1ap-E-RAB-ID,
-    transportLayerAddress               S1ap-TransportLayerAddress,
-    gTP-TEID                            S1ap-GTP-TEID,
-    -- iE-Extensions                   ProtocolExtensionContainer { { E-RABToBeSwitchedDLItem-ExtIEs} }            OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABToBeSwitchedULItem ::= SEQUENCE {
-    e-RAB-ID                            S1ap-E-RAB-ID,
-    transportLayerAddress               S1ap-TransportLayerAddress,
-    gTP-TEID                            S1ap-GTP-TEID,
-    -- iE-Extensions                       ProtocolExtensionContainer { { E-RABToBeSwitchedULItem-ExtIEs} }            OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
 S1ap-E-RABToBeSetupItemBearerSUReq ::= SEQUENCE {
     e-RAB-ID                        S1ap-E-RAB-ID,
     e-RABlevelQoSParameters         S1ap-E-RABLevelQoSParameters,
@@ -858,79 +805,35 @@ S1ap-E-RABToBeSetupItemBearerSUReq ::= SEQUENCE {
     ...
 }
 
-S1ap-E-RABSetupItemBearerSURes ::= SEQUENCE {
-    e-RAB-ID                    S1ap-E-RAB-ID,
-    transportLayerAddress       S1ap-TransportLayerAddress,
-    gTP-TEID                    S1ap-GTP-TEID,
-    -- iE-Extensions               ProtocolExtensionContainer { {E-RABSetupItemBearerSUResExtIEs} } OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABToBeModifiedItemBearerModReq ::= SEQUENCE {
-    e-RAB-ID                        S1ap-E-RAB-ID,
-    e-RABLevelQoSParameters         S1ap-E-RABLevelQoSParameters,
-    nAS-PDU                         S1ap-NAS-PDU,
-    -- iE-Extensions                   ProtocolExtensionContainer { {E-RABToBeModifyItemBearerModReqExtIEs} } OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABReleaseItemBearerRelComp ::= SEQUENCE {
-    e-RAB-ID                    S1ap-E-RAB-ID,
-    -- iE-Extensions                   ProtocolExtensionContainer { {E-RABReleaseItemBearerRelCompExtIEs} } OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABToBeSetupItemCtxtSUReq ::= SEQUENCE {
-    e-RAB-ID                    S1ap-E-RAB-ID,
-    e-RABlevelQoSParameters     S1ap-E-RABLevelQoSParameters,
-    transportLayerAddress       S1ap-TransportLayerAddress,
-    gTP-TEID                    S1ap-GTP-TEID,
-    nAS-PDU                     S1ap-NAS-PDU       OPTIONAL,
-    iE-Extensions               S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABSetupItemCtxtSURes ::= SEQUENCE {
-    e-RAB-ID                S1ap-E-RAB-ID,
-    transportLayerAddress   S1ap-TransportLayerAddress,
-    gTP-TEID                S1ap-GTP-TEID,
-    iE-Extensions           S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABToBeModifiedListBearerModReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABReleaseListBearerRelComp ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABToBeModifiedListBearerModReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABReleaseListBearerRelComp ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
 S1ap-E-RABInformationList    ::= SEQUENCE (SIZE (1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABToBeSetupListCtxtSUReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABSetupListCtxtSURes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABToBeSetupListCtxtSUReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABSetupListCtxtSURes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
 S1ap-E-RABDataForwardingList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABSetupListBearerSURes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABFailedToSetupListHOReqAck ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABToBeSetupListBearerSUReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABAdmittedList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABToBeSwitchedDLList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABToBeSwitchedULList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABModifyListBearerModRes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
-S1ap-E-RABToBeSetupListHOReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABSetupListBearerSURes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABFailedToSetupListHOReqAck ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABToBeSetupListBearerSUReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABAdmittedList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABToBeSwitchedDLList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABToBeSwitchedULList ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABModifyListBearerModRes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABToBeSetupListHOReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABFailedToResumeListResumeReq ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABNotToBeModifiedListBearerModInd ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABFailedToResumeListResumeRes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABNotToBeModifiedItemBearerModInd ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABFailedToResumeItemResumeRes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
+--S1ap-E-RABToBeModifiedListBearerModInd ::= SEQUENCE (SIZE(1.. s1ap-maxnoofE-RABs)) OF S1ap-IE
 
-S1ap-TAIList::= SEQUENCE (SIZE(1.. s1ap-maxnoofTAIs)) OF S1ap-IE
+
+--S1ap-TAIList::= SEQUENCE (SIZE(1.. s1ap-maxnoofTAIs)) OF S1ap-IE
 S1ap-UE-associatedLogicalS1-ConnectionListRes ::= SEQUENCE (SIZE(1.. s1ap-maxnoofIndividualS1ConnectionsToReset)) OF S1ap-IE
 S1ap-UE-associatedLogicalS1-ConnectionListResAck ::= SEQUENCE (SIZE(1.. s1ap-maxnoofIndividualS1ConnectionsToReset)) OF S1ap-IE
 
 S1ap-E-RABModifyItemBearerModRes ::= SEQUENCE {
     e-RAB-ID                    S1ap-E-RAB-ID,
     -- iE-Extensions                   ProtocolExtensionContainer { {E-RABModifyItemBearerModResExtIEs} } OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-E-RABFailedToSetupItemHOReqAck ::= SEQUENCE {
-    e-RAB-ID                        S1ap-E-RAB-ID,
-    cause                           S1ap-Cause,
-    -- iE-Extensions                   ProtocolExtensionContainer { { E-RABFailedToSetupItemHOReqAckExtIEs} }          OPTIONAL,
     iE-Extensions   S1ap-IE-Extensions OPTIONAL,
     ...
 }
@@ -1212,11 +1115,6 @@ S1ap-IntegrityProtectionAlgorithms ::= BIT STRING (SIZE (16,...))
 S1ap-IntendedNumberOfPagingAttempts ::= INTEGER (1..16, ...)
 
 S1ap-InterfacesToTrace ::= BIT STRING (SIZE (8))
-
-S1ap-Inter-SystemInformationTransferType ::= CHOICE {
-    rIMTransfer     S1ap-RIMTransfer,
-    ...
-}
 
 -- J
 -- K
@@ -1711,17 +1609,6 @@ S1ap-QCI                     ::= INTEGER (0..255)
 
 -- R
 
-S1ap-ResetType ::= CHOICE {
-    s1-Interface                S1ap-ResetAll,
-    partOfS1-Interface          S1ap-UE-associatedLogicalS1-ConnectionListRes,
-    ...
-}
-
-S1ap-ResetAll ::= ENUMERATED {
-    reset-all,
-    ...
-}
-
 S1ap-ReceiveStatusofULPDCPSDUs ::= BIT STRING (SIZE(4096))
 
 S1ap-ReceiveStatusOfULPDCPSDUsExtended ::= BIT STRING (SIZE(1..16384))
@@ -2119,13 +2006,6 @@ S1ap-TAI ::= SEQUENCE {
     tAC                     S1ap-TAC,
     -- iE-Extensions           ProtocolExtensionContainer { {S1ap-TAI-ExtIEs} } OPTIONAL,
     iE-Extensions           S1ap-IE-Extensions OPTIONAL,
-    ...
-}
-
-S1ap-TAIItem ::= SEQUENCE {
-    tAI                             S1ap-TAI,
-    -- iE-Extensions                   ProtocolExtensionContainer { {TAIItemExtIEs} } OPTIONAL,
-    iE-Extensions   S1ap-IE-Extensions OPTIONAL,
     ...
 }
 

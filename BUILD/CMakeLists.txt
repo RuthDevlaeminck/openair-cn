@@ -291,10 +291,10 @@ set(asn1_generated_dir ${OPENAIRCN_BIN_DIR})
 # so we generate it at cmake time
 ###############################################################################
 
-add_list1_option(S1AP_VERSION R10 "S1AP Asn.1 grammar version" R8 R9 R10)
+add_list1_option(S1AP_VERSION R14 "S1AP Asn.1 grammar version" R8 R9 R10 R14)
 
 set(S1AP_DIR ${OPENAIRCN_DIR}/SRC/S1AP)
-set(ASN1RELDIR R10.5)
+set(ASN1RELDIR R14)
 
 set(S1AP_ASN_DIR ${S1AP_DIR}/MESSAGES/ASN1/${ASN1RELDIR})
 set(S1AP_ASN_FILES
