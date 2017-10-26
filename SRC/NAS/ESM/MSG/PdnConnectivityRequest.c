@@ -108,6 +108,7 @@ decode_pdn_connectivity_request (
       break;
       
     default:
+      OAILOG_INFO (LOG_NAS_ESM, "ESM-MSG - IE is not known. IE = %x\n", ieiDecoded);
       errorCodeDecoder = TLV_UNEXPECTED_IEI;
       return TLV_UNEXPECTED_IEI;
     }
