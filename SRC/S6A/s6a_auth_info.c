@@ -127,7 +127,7 @@ s6a_parse_e_utran_vector (
       break;
 
     case AVP_CODE_ITEM_NUMBER:
-      // BJ
+      // TODO: need to support this, don't return error
       break;
 
     default:
