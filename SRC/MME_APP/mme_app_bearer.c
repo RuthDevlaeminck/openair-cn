@@ -868,7 +868,6 @@ mme_app_handle_initial_context_setup_rsp (
   s11_modify_bearer_request->teid = ue_context_p->sgw_s11_teid;
   s11_modify_bearer_request->local_teid = ue_context_p->mme_s11_teid;
 
-  /*BJ*/
   OAI_GCC_DIAG_OFF(pointer-to-int-cast);
   s11_modify_bearer_request->sender_fteid_for_cp.teid = (teid_t) ue_context_p;
   OAI_GCC_DIAG_ON(pointer-to-int-cast);

@@ -771,9 +771,7 @@ s1ap_mme_generate_ue_context_release_command (
     cause_value = S1ap_CauseNas_unspecified;
     break;
   case S1AP_RADIO_EUTRAN_GENERATED_REASON:cause_type = S1ap_Cause_PR_radioNetwork;
-    // BAIJIAN
     cause_value = S1ap_CauseRadioNetwork_release_due_to_eutran_generated_reason;
-    //cause_value = S1ap_CauseRadioNetwork_user_inactivity;
     break;
   default:
     AssertFatal(false, "Unknown cause for context release");
