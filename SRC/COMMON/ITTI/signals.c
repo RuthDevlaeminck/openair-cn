@@ -49,9 +49,12 @@
 #include "signals.h"
 #include "log.h"
 
+// KMAC - Add if 0 since EMU was not defined
+#if 0
 #if defined (LOG_D) && defined (LOG_E)
 #  define SIG_DEBUG(x, args...)  OAILOG_D(EMU, x, ##args)
 #  define SIG_ERROR(x, args...)  OAILOG_E(EMU, x, ##args)
+#endif
 #endif
 
 #ifndef SIG_DEBUG

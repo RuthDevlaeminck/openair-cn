@@ -355,6 +355,20 @@ msc_init (
 
       break;
 
+    // KMAC - T6A support
+    case MSC_T6A_MME:
+      rv = snprintf (&g_msc_proto2str[i][0], MSC_MAX_PROTO_NAME_LENGTH, "T6A");
+
+      if (rv >= MSC_MAX_PROTO_NAME_LENGTH) {
+        g_msc_proto2str[i][MSC_MAX_PROTO_NAME_LENGTH - 1] = 0;
+      }
+
+      if ((envP == MSC_MME_GW) || (envP == MSC_MME)) {
+        msc_log_declare_proto (i);
+      }
+
+      break;
+
     case MSC_SGW:
       rv = snprintf (&g_msc_proto2str[i][0], MSC_MAX_PROTO_NAME_LENGTH, "SGW");
 
@@ -370,6 +384,20 @@ msc_init (
 
     case MSC_HSS:
       rv = snprintf (&g_msc_proto2str[i][0], MSC_MAX_PROTO_NAME_LENGTH, "HSS");
+
+      if (rv >= MSC_MAX_PROTO_NAME_LENGTH) {
+        g_msc_proto2str[i][MSC_MAX_PROTO_NAME_LENGTH - 1] = 0;
+      }
+
+      if ((envP == MSC_MME_GW) || (envP == MSC_MME)) {
+        msc_log_declare_proto (i);
+      }
+
+      break;
+
+    // KMAC - SCEF support
+    case MSC_SCEF:
+      rv = snprintf (&g_msc_proto2str[i][0], MSC_MAX_PROTO_NAME_LENGTH, "SCEF");
 
       if (rv >= MSC_MAX_PROTO_NAME_LENGTH) {
         g_msc_proto2str[i][MSC_MAX_PROTO_NAME_LENGTH - 1] = 0;

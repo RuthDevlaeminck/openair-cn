@@ -50,10 +50,10 @@
 #define S1AP_OUTCOME_TIMER_DEFAULT (5)     ///< S1AP Outcome drop timer (s)
 
 /*******************************************************************************
- * S6A Constants
+ * KMAC: Free Diameter Constants - S6A and T6A support
  ******************************************************************************/
 
-#define S6A_CONF_FILE "../S6A/freediameter/s6a.conf"
+#define FDIAM_CONF_FILE "../FDIAM/freediameter/fdiam.conf"
 
 /*******************************************************************************
  * SCTP Constants

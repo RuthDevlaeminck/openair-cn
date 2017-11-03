@@ -191,7 +191,8 @@ void s6a_peer_connected_cb(struct peer_info *info, void *arg);
 int s6a_fd_init_dict_objs(void);
 int s6a_parse_subscription_data(struct avp *avp_subscription_data,
                                 subscription_data_t *subscription_data);
-int s6a_parse_experimental_result(struct avp *avp, s6a_experimental_result_t *ptr);
+// KMAC - Update to FDIAM
+int s6a_parse_experimental_result(struct avp *avp, fdiam_experimental_result_t *ptr);
 char *experimental_retcode_2_string(uint32_t ret_code);
 char *retcode_2_string(uint32_t ret_code);
 int aia_cb (
@@ -392,7 +393,7 @@ void auth_request_exit(void)
 int
 parse_experimental_result (
   struct avp *avp,
-  s6a_experimental_result_t * ptr)
+  fdiam_experimental_result_t * ptr)      // KMAC- Update to FDIAM
 {
   struct avp_hdr                         *hdr;
   struct avp                             *child_avp = NULL;
@@ -413,7 +414,7 @@ parse_experimental_result (
       fprintf (stderr, "Got experimental error %u:%s\n", hdr->avp_value->u32, experimental_retcode_2_string (hdr->avp_value->u32));
 
       if (ptr) {
-        *ptr = (s6a_experimental_result_t) hdr->avp_value->u32;
+        *ptr = (fdiam_experimental_result_t) hdr->avp_value->u32;   // KMAC - Update to FDIAM
       }
 
       break;
@@ -725,7 +726,8 @@ aia_cb (
 
   if (avp) {
     CHECK_FCT (fd_msg_avp_hdr (avp, &hdr));
-    s6a_auth_info_ans_p->result.present = S6A_RESULT_BASE;
+    // KMAC - Update to FDIAM
+    s6a_auth_info_ans_p->result.present = FDIAM_RESULT_BASE;
     s6a_auth_info_ans_p->result.choice.base = hdr->avp_value->u32;
 
     if (hdr->avp_value->u32 != ER_DIAMETER_SUCCESS) {
@@ -747,7 +749,8 @@ aia_cb (
        * * * * NOTE: contrary to result-code, the experimental-result is a grouped
        * * * * AVP and requires parsing its childs to get the code back.
        */
-      s6a_auth_info_ans_p->result.present = S6A_RESULT_EXPERIMENTAL;
+      // KMAC - Update to FDIAM
+      s6a_auth_info_ans_p->result.present = FDIAM_RESULT_EXPERIMENTAL;
       parse_experimental_result (avp, &s6a_auth_info_ans_p->result.choice.experimental);
       skip_auth_res = 1;
     } else {

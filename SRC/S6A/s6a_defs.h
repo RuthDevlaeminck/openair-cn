@@ -27,48 +27,13 @@
 # include "config.h"
 #endif
 
-#include <freeDiameter/freeDiameter-host.h>
-#include <freeDiameter/libfdcore.h>
-
+#include "fdiam_defs.h"
 #include "mme_config.h"
 #include "queue.h"
 
 
 #define VENDOR_3GPP (10415)
 #define APP_S6A     (16777251)
-
-/* Errors that fall within the Permanent Failures category shall be used to
- * inform the peer that the request has failed, and should not be attempted
- * again. The Result-Code AVP values defined in Diameter Base Protocol RFC 3588
- * shall be applied. When one of the result codes defined here is included in a
- * response, it shall be inside an Experimental-Result AVP and the Result-Code
- * AVP shall be absent.
- */
-#define DIAMETER_ERROR_USER_UNKNOWN             (5001)
-#define DIAMETER_ERROR_ROAMING_NOT_ALLOWED      (5004)
-#define DIAMETER_ERROR_UNKNOWN_EPS_SUBSCRIPTION (5420)
-#define DIAMETER_ERROR_RAT_NOT_ALLOWED          (5421)
-#define DIAMETER_ERROR_EQUIPMENT_UNKNOWN        (5422)
-#define DIAMETER_ERROR_UNKOWN_SERVING_NODE      (5423)
-
-/* Result codes that fall within the transient failures category shall be used
- * to inform a peer that the request could not be satisfied at the time it was
- * received, but may be able to satisfy the request in the future. The
- * Result-Code AVP values defined in Diameter Base Protocol RFC 3588 shall be
- * applied. When one of the result codes defined here is included in a response,
- * it shall be inside an Experimental-Result AVP and the Result-Code AVP shall
- * be absent.
- */
-#define DIAMETER_AUTHENTICATION_DATA_UNAVAILABLE (4181)
-
-#define DIAMETER_ERROR_IS_VENDOR(x)                    \
-   ((x == DIAMETER_ERROR_USER_UNKNOWN)              || \
-    (x == DIAMETER_ERROR_ROAMING_NOT_ALLOWED)       || \
-    (x == DIAMETER_ERROR_UNKNOWN_EPS_SUBSCRIPTION)  || \
-    (x == DIAMETER_ERROR_RAT_NOT_ALLOWED)           || \
-    (x == DIAMETER_ERROR_EQUIPMENT_UNKNOWN)         || \
-    (x == DIAMETER_AUTHENTICATION_DATA_UNAVAILABLE) || \
-    (x == DIAMETER_ERROR_UNKOWN_SERVING_NODE))
 
 typedef struct {
   struct dict_object *dataobj_s6a_vendor;     /* s6a vendor object */
@@ -126,14 +91,7 @@ extern s6a_fd_cnf_t s6a_fd_cnf;
 
 #define ULA_SEPARATION_IND          (1U)
 
-#define FLAG_IS_SET(x, flag)   \
-    ((x) & (flag))
-
-#define FLAGS_SET(x, flags) \
-    ((x) |= (flags))
-
-#define FLAGS_CLEAR(x, flags)   \
-    ((x) = (x) & ~(flags))
+// KMAC - Moved FLAG macros to common_defs.h
 
 /* IANA defined IP address type */
 #define IANA_IPV4   (0x1)
@@ -181,10 +139,5 @@ int s6a_fd_init_dict_objs(void);
 
 int s6a_parse_subscription_data(struct avp *avp_subscription_data,
                                 subscription_data_t *subscription_data);
-
-int s6a_parse_experimental_result(struct avp *avp, s6a_experimental_result_t *ptr);
-char *experimental_retcode_2_string(uint32_t ret_code);
-char *retcode_2_string(uint32_t ret_code);
-
 
 #endif /* S6A_DEFS_H_ */

@@ -26,34 +26,14 @@
  * of the authors and should not be interpreted as representing official policies,
  * either expressed or implied, of the FreeBSD Project.
  */
-// This task is mandatory and must always be placed in first position
-TASK_DEF(TASK_TIMER,    TASK_PRIORITY_MED, 10)
-
-// Other possible tasks in the process
-
-/// GTPV1-U task
-TASK_DEF(TASK_GTPV1_U,  TASK_PRIORITY_MED, 200)
-/// FW_IP task
-TASK_DEF(TASK_FW_IP,    TASK_PRIORITY_MED, 200)
-/// MME Applicative task
-TASK_DEF(TASK_MME_APP,  TASK_PRIORITY_MED, 200)
-/// NAS task
-TASK_DEF(TASK_NAS_MME,  TASK_PRIORITY_MED, 200)
-/// S11 task
-TASK_DEF(TASK_S11,      TASK_PRIORITY_MED, 200)
-/// S1AP task
-TASK_DEF(TASK_S1AP,     TASK_PRIORITY_MED, 200)
-/// S6a task
-TASK_DEF(TASK_S6A,      TASK_PRIORITY_MED, 200)
-/// T6a task - KMAC
-TASK_DEF(TASK_T6A,      TASK_PRIORITY_MED, 200)
-/// SCTP task
-TASK_DEF(TASK_SCTP,     TASK_PRIORITY_MED, 200)
-/// Serving and Proxy Gateway Application task
-TASK_DEF(TASK_SPGW_APP, TASK_PRIORITY_MED, 200)
-/// UDP task
-TASK_DEF(TASK_UDP,      TASK_PRIORITY_MED, 200)
-//MESSAGE GENERATOR TASK
-TASK_DEF(TASK_MSC,      TASK_PRIORITY_MED,          200)
-//LOGGING TASK
-TASK_DEF(TASK_LOG,      TASK_PRIORITY_MED,          10)
+//WARNING: Do not include this header directly. Use intertask_interface.h instead.
+MESSAGE_DEF(T6A_REPORT_INFO_REQ, MESSAGE_PRIORITY_MED,      t6a_report_info_req_t, t6a_report_info_req)
+MESSAGE_DEF(T6A_REPORT_INFO_ANS, MESSAGE_PRIORITY_MED,      t6a_report_info_ans_t, t6a_report_info_ans)
+MESSAGE_DEF(T6A_CONFIG_INFO_REQ, MESSAGE_PRIORITY_MED,      t6a_config_info_req_t, t6a_config_info_req)
+MESSAGE_DEF(T6A_CONFIG_INFO_ANS, MESSAGE_PRIORITY_MED,      t6a_config_info_ans_t, t6a_config_info_ans)
+MESSAGE_DEF(T6A_CONN_MGMT_REQ, MESSAGE_PRIORITY_MED,        t6a_conn_mgmt_req_t, t6a_conn_mgmt_req)
+MESSAGE_DEF(T6A_CONN_MGMT_ANS, MESSAGE_PRIORITY_MED,        t6a_conn_mgmt_ans_t, t6a_conn_mgmt_ans)
+MESSAGE_DEF(T6A_MO_DATA_REQ, MESSAGE_PRIORITY_MED,          t6a_mo_data_req_t, t6a_mo_data_req)
+MESSAGE_DEF(T6A_MO_DATA_ANS, MESSAGE_PRIORITY_MED,          t6a_mo_data_ans_t, t6a_mo_data_ans)
+MESSAGE_DEF(T6A_MT_DATA_REQ, MESSAGE_PRIORITY_MED,          t6a_mt_data_req_t, t6a_mt_data_req)
+MESSAGE_DEF(T6A_MT_DATA_ANS, MESSAGE_PRIORITY_MED,          t6a_mt_data_ans_t, t6a_mt_data_ans)

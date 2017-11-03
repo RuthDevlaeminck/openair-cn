@@ -23,6 +23,9 @@
 
 cmake_minimum_required (VERSION 2.8)
 
+# C++ compiler. Uncomment for C++ build 
+# SET(CMAKE_C_COMPILER /usr/bin/c++)
+
 #############################################
 # Base directories, compatible with legacy OAI building
 ################################################
@@ -388,6 +391,10 @@ include_directories("${OPENAIRCN_DIR}/SRC/UTILS/BSTR")
 include_directories("${OPENAIRCN_DIR}/SRC/SGW")
 include_directories("${OPENAIRCN_DIR}/SRC/MME_APP")
 include_directories("${OPENAIRCN_DIR}/SRC/S6A")
+# KMAC - Add FDIAM and T6A 
+include_directories("${OPENAIRCN_DIR}/SRC/FDIAM")
+include_directories("${OPENAIRCN_DIR}/SRC/T6A")
+# end
 include_directories("${OPENAIRCN_DIR}/SRC")
 
 
@@ -505,15 +512,34 @@ add_library(S11_SGW
 )
 include_directories(${S11_DIR})
 
+
+# KMAC - Add FDIAM
+set(FDIAM_DIR ${OPENAIRCN_DIR}/SRC/FDIAM)
+add_library(FDIAM
+  ${FDIAM_DIR}/fdiam_core_if.c
+  ${FDIAM_DIR}/fdiam_error.c
+  )
+
+# KMAC - Remove s6a_error which is now part of FDIAM
 set(S6A_DIR ${OPENAIRCN_DIR}/SRC/S6A)
 add_library(S6A
   ${S6A_DIR}/s6a_auth_info.c
   ${S6A_DIR}/s6a_dict.c
-  ${S6A_DIR}/s6a_error.c
   ${S6A_DIR}/s6a_peer.c
   ${S6A_DIR}/s6a_subscription_data.c
   ${S6A_DIR}/s6a_task.c
   ${S6A_DIR}/s6a_up_loc.c
+  )
+
+# KMAC - Add T6A
+set(T6A_DIR ${OPENAIRCN_DIR}/SRC/T6A)
+# Below works to compile specific files under C++. Easier to just change Compiler path
+# SET_SOURCE_FILES_PROPERTIES(${T6A_DIR}/t6a_messages.c PROPERTIES LANGUAGE CXX )
+add_library(T6A
+  ${T6A_DIR}/t6a_dict.c
+  ${T6A_DIR}/t6a_peer.c
+  ${T6A_DIR}/t6a_task.c
+  ${T6A_DIR}/t6a_messages.c
   )
 
 set(SGW_DIR ${OPENAIRCN_DIR}/SRC/SGW)
@@ -866,7 +892,7 @@ if( ITTI_ANALYZER )
 endif( ITTI_ANALYZER )
 target_link_libraries (mme
   -Wl,--start-group
-   LIB_NAS_MME S1AP_LIB S1AP_EPC S11_MME GTPV2C SCTP_SERVER UDP_SERVER SECU_CN  S6A MME_APP LFDS ${MSC_LIB} ${ITTI_LIB} CN_UTILS HASHTABLE BSTR
+   LIB_NAS_MME S1AP_LIB S1AP_EPC S11_MME GTPV2C SCTP_SERVER UDP_SERVER SECU_CN  S6A T6A FDIAM MME_APP LFDS ${MSC_LIB} ${ITTI_LIB} CN_UTILS HASHTABLE BSTR
   -Wl,--end-group
   pthread m sctp  rt crypt ${CRYPTO_LIBRARIES} ${OPENSSL_LIBRARIES} ${NETTLE_LIBRARIES} ${CONFIG_LIBRARIES} gnutls fdproto fdcore
   )

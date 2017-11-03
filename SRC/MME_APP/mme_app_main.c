@@ -43,6 +43,7 @@ void *mme_app_thread (
   void *args)
 {
   struct ue_context_s                    *ue_context_p = NULL;
+
   itti_mark_task_ready (TASK_MME_APP);
   MSC_START_USE ();
 
@@ -66,6 +67,48 @@ void *mme_app_thread (
         mme_app_handle_s6a_update_location_ans (&received_message_p->ittiMsg.s6a_update_location_ans);
       }
       break;
+
+    // KMAC - T6A Support
+    case T6A_REPORT_INFO_ANS:{
+        /*
+         * We received the report info answer message from SCEF -> Handle it
+         */
+        //mme_app_handle_t6a_report_info_ans (&received_message_p->ittiMsg.t6a_report_info_ans);
+      }
+      break;
+
+    case T6A_CONFIG_INFO_REQ:{
+        /*
+         * We received the config info request message from SCEF -> Handle it
+         */
+        //mme_app_handle_t6a_config_info_req (&received_message_p->ittiMsg.t6a_config_info_req);
+      }
+      break;
+
+    case T6A_CONN_MGMT_ANS:{
+        /*
+         * We received the connection mgmt answer message from SCEF -> Handle it
+         */
+        //mme_app_handle_t6a_conn_mgmt_ans (&received_message_p->ittiMsg.t6a_conn_mgmt_ans);
+      }
+      break;
+
+    case T6A_MO_DATA_ANS:{
+        /*
+         * We received the MO data answer message from SCEF -> Handle it
+         */
+        //mme_app_handle_t6a_mo_data_ans (&received_message_p->ittiMsg.t6a_mo_data_ans);
+      }
+      break;
+
+    case T6A_MT_DATA_REQ:{
+        /*
+         * We received the MT data request message from SCEF -> Handle it
+         */
+        //mme_app_handle_t6a_mt_data_req (&received_message_p->ittiMsg.t6a_mt_data_req);
+      }
+      break;
+    // END
 
     case S11_CREATE_SESSION_RESPONSE:{
         mme_app_handle_create_sess_resp (&received_message_p->ittiMsg.s11_create_session_response);

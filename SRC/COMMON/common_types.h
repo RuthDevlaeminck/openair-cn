@@ -157,6 +157,7 @@ typedef struct tai_list_s {
   (GuTi_PtR)->gummei.mme_gid,\
   (GuTi_PtR)->gummei.mme_code,\
   (GuTi_PtR)->m_tmsi
+
 #define MSISDN_LENGTH      (15)
 #define IMEI_DIGITS_MAX    (15)
 #define IMEISV_DIGITS_MAX  (16)
@@ -165,6 +166,14 @@ typedef struct tai_list_s {
 #define PRIORITY_LEVEL_MIN (1)
 #define BEARERS_PER_UE     (11)
 #define MAX_APN_PER_UE     (5)
+#define LMSI_DIGITS_MAX    (15)
+#define BEARER_ID_MAX_LENGTH (32)
+#define SRVC_SELECT_MAX      (64)
+#define CHARGING_CHAR_MAX    (64)
+#define REALM_NAME_MAX       (128)
+
+// External Id Format:  <local identifier>@<domain identifier>
+#define EXTERNAL_ID_LENGTH (128)
 
 //------------------------------------------------------------------------------
 typedef uint8_t       ksi_t;
@@ -225,7 +234,6 @@ typedef uint32_t ard_t;
 #define ARD_E_UTRAN_NOT_ALLOWED             (1U << 4)
 #define ARD_HO_TO_NON_3GPP_NOT_ALLOWED      (1U << 5)
 #define ARD_MAX                             (1U << 6)
-
 
 
 typedef union {
@@ -298,7 +306,7 @@ typedef struct eps_subscribed_qos_profile_s {
 typedef struct apn_configuration_s {
   context_identifier_t context_identifier;
 
-  /* Each APN configuration can have 0, 1, or 2 ip address:
+  /* Each APN (Access Point Name) configuration can have 0, 1, or 2 ip address:
    * - 0 means subscribed is dynamically allocated by P-GW depending on the
    * pdn_type
    * - 1 Only one type of IP address is returned by HSS
@@ -341,37 +349,80 @@ typedef struct {
   rau_tau_timer_t       rau_tau_timer;
 } subscription_data_t;
 
+// KMAC - Added. Moved from sgw_ie_defs.h
+#define IMSI(imsi) \
+        (imsi)->digit[0], \
+        (imsi)->digit[1], \
+        (imsi)->digit[2], \
+        (imsi)->digit[3], \
+        (imsi)->digit[4], \
+        (imsi)->digit[5], \
+        (imsi)->digit[6], \
+        (imsi)->digit[7], \
+        (imsi)->digit[8], \
+        (imsi)->digit[9], \
+        (imsi)->digit[10], \
+        (imsi)->digit[11], \
+        (imsi)->digit[12], \
+        (imsi)->digit[13], \
+        (imsi)->digit[14]
+
+typedef struct {
+  uint8_t digit[IMSI_BCD_DIGITS_MAX+1]; // +1 for '\0` macro sprintf changed in snprintf
+  uint8_t length;
+} Imsi_t;
+
+typedef struct {
+  uint8_t digit[MSISDN_LENGTH+1];  // +1 for '\0` macro sprintf changed in snprintf
+  uint8_t length;
+} Msisdn_t;
+// END
+
+// KMAC - Types added for T6A
+typedef struct {
+  uint8_t digit[LMSI_DIGITS_MAX+1]; // +1 for '\0` macro sprintf changed in snprintf
+  uint8_t length;
+} Lmsi_t;
+
+typedef struct bearer_id_s {
+  uint8_t  data[BEARER_ID_MAX_LENGTH+1];  // +1 for '\0` macro sprintf changed in snprintf
+  uint8_t  length;
+} bearer_id_t;
+
+typedef struct utc_time_s {
+  uint8_t  data[4];
+} utc_time_t;
+
+// Geographical Info - 8 bytes
+typedef struct geographical_info_s {
+  uint8_t    typeOfShape;
+  uint8_t    degreesOfLatitude[3];
+  uint8_t    degreesOfLongitude[3];
+  uint8_t    uncertainty_code;
+} geographical_info_t;
+
+// Geodetic Info - 10 bytes
+typedef struct geodetic_info_s {
+  uint8_t    screenAndPresentInd;
+  uint8_t    typeOfShape;
+  uint8_t    degreesOfLatitude[3];
+  uint8_t    degreesOfLongitude[3];
+  uint8_t    uncertainty_code;
+  uint8_t    confidence;
+} geodetic_info_t;
+
+typedef struct meid_s {
+  uint8_t    regionalCode;
+  uint32_t   manuCode:24;
+  uint32_t   serialNum:24;
+} meid_t;
+
+// END
+
 typedef struct authentication_info_s {
   uint8_t         nb_of_vectors;
   eutran_vector_t eutran_vector[MAX_EPS_AUTH_VECTORS];
 } authentication_info_t;
-
-typedef enum {
-  DIAMETER_AUTHENTICATION_DATA_UNAVAILABLE = 4181,
-  DIAMETER_ERROR_USER_UNKNOWN              = 5001,
-  DIAMETER_ERROR_ROAMING_NOT_ALLOWED       = 5004,
-  DIAMETER_ERROR_UNKNOWN_EPS_SUBSCRIPTION  = 5420,
-  DIAMETER_ERROR_RAT_NOT_ALLOWED           = 5421,
-  DIAMETER_ERROR_EQUIPMENT_UNKNOWN         = 5422,
-  DIAMETER_ERROR_UNKOWN_SERVING_NODE       = 5423,
-} s6a_experimental_result_t;
-
-typedef enum {
-  DIAMETER_SUCCESS = 2001,
-} s6a_base_result_t;
-
-typedef struct {
-#define S6A_RESULT_BASE         0x0
-#define S6A_RESULT_EXPERIMENTAL 0x1
-  unsigned present:1;
-
-  union {
-    /* Experimental result as defined in 3GPP TS 29.272 */
-    s6a_experimental_result_t experimental;
-    /* Diameter basics results as defined in RFC 3588 */
-    s6a_base_result_t         base;
-  } choice;
-} s6a_result_t;
 
 #include "commonDef.h"
 

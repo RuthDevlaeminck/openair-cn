@@ -303,6 +303,10 @@ void log_set_config(const log_config_t * const config)
     if ((MAX_LOG_LEVEL > config->spgw_app_log_level) && (MIN_LOG_LEVEL <= config->spgw_app_log_level)) g_oai_log.log_level[LOG_SPGW_APP] = config->spgw_app_log_level;
     if ((MAX_LOG_LEVEL > config->s11_log_level) && (MIN_LOG_LEVEL <= config->s11_log_level))           g_oai_log.log_level[LOG_S11]      = config->s11_log_level;
     if ((MAX_LOG_LEVEL > config->s6a_log_level) && (MIN_LOG_LEVEL <= config->s6a_log_level))           g_oai_log.log_level[LOG_S6A]      = config->s6a_log_level;
+    /* KMAC: Add T6a and FreeDiameter support */
+    if ((MAX_LOG_LEVEL > config->t6a_log_level) && (MIN_LOG_LEVEL <= config->t6a_log_level))           g_oai_log.log_level[LOG_T6A]      = config->t6a_log_level;
+    if ((MAX_LOG_LEVEL > config->fdiam_log_level) && (MIN_LOG_LEVEL <= config->fdiam_log_level))    g_oai_log.log_level[LOG_FDIAM]      = config->fdiam_log_level;
+    /* END */
     if ((MAX_LOG_LEVEL > config->util_log_level) && (MIN_LOG_LEVEL <= config->util_log_level))         g_oai_log.log_level[LOG_UTIL]     = config->util_log_level;
     if ((MAX_LOG_LEVEL > config->msc_log_level) && (MIN_LOG_LEVEL <= config->msc_log_level))           g_oai_log.log_level[LOG_MSC]      = config->msc_log_level;
     if ((MAX_LOG_LEVEL > config->itti_log_level) && (MIN_LOG_LEVEL <= config->itti_log_level))         g_oai_log.log_level[LOG_ITTI]     = config->itti_log_level;
@@ -469,6 +473,10 @@ log_init (
   rv = snprintf (&g_oai_log.log_proto2str[LOG_SPGW_APP][0], LOG_MAX_PROTO_NAME_LENGTH, "SPGW-APP");
   rv = snprintf (&g_oai_log.log_proto2str[LOG_S11][0], LOG_MAX_PROTO_NAME_LENGTH, "S11");
   rv = snprintf (&g_oai_log.log_proto2str[LOG_S6A][0], LOG_MAX_PROTO_NAME_LENGTH, "S6A");
+  /* KMAC: Add T6a and FreeDiameter support */
+  rv = snprintf (&g_oai_log.log_proto2str[LOG_T6A][0], LOG_MAX_PROTO_NAME_LENGTH, "T6A");
+  rv = snprintf (&g_oai_log.log_proto2str[LOG_FDIAM][0], LOG_MAX_PROTO_NAME_LENGTH, "FDIAM");
+  /* END */
   rv = snprintf (&g_oai_log.log_proto2str[LOG_UTIL][0], LOG_MAX_PROTO_NAME_LENGTH, "UTIL");
   rv = snprintf (&g_oai_log.log_proto2str[LOG_CONFIG][0], LOG_MAX_PROTO_NAME_LENGTH, "CONFIG");
   rv = snprintf (&g_oai_log.log_proto2str[LOG_MSC][0], LOG_MAX_PROTO_NAME_LENGTH, "MSC");
@@ -560,7 +568,9 @@ log_flush_messages (
         if (rv != 0) {
           OAI_FPRINTF_ERR("Error while closing Log file stream: %s\n", strerror (errno));
         }
+
         // do not exit
+        // KMAC: BUG - rv_put will never be set less than zero for syslog call
         if (LOG_TCP_STATE_DISABLED != g_oai_log.tcp_state) {
           // Let ITTI LOG Timer do the reconnection
           g_oai_log.tcp_state = LOG_TCP_STATE_NOT_CONNECTED;

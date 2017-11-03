@@ -104,6 +104,9 @@ static void mme_config_init (mme_config_t * config_pP)
   config_pP->log_config.spgw_app_log_level = MAX_LOG_LEVEL;
   config_pP->log_config.s11_log_level      = MAX_LOG_LEVEL;
   config_pP->log_config.s6a_log_level      = MAX_LOG_LEVEL;
+  // KMAC: Add support for T6a and Free Diameter
+  config_pP->log_config.t6a_log_level      = MAX_LOG_LEVEL;
+  config_pP->log_config.fdiam_log_level    = MAX_LOG_LEVEL;
   config_pP->log_config.util_log_level     = MAX_LOG_LEVEL;
   config_pP->log_config.msc_log_level      = MAX_LOG_LEVEL;
   config_pP->log_config.itti_log_level     = MAX_LOG_LEVEL;
@@ -131,7 +134,7 @@ static void mme_config_init (mme_config_t * config_pP)
   config_pP->ipv4.s11 = 0;
   config_pP->ipv4.port_s11 = 2123;
   config_pP->ipv4.sgw_s11 = 0;
-  config_pP->s6a_config.conf_file = bfromcstr(S6A_CONF_FILE);
+  config_pP->fdiam_config.conf_file = bfromcstr(FDIAM_CONF_FILE);
   config_pP->itti_config.queue_size = ITTI_QUEUE_MAX_ELEMENTS;
   config_pP->itti_config.log_file = NULL;
   config_pP->sctp_config.in_streams = SCTP_IN_STREAMS;
@@ -256,6 +259,14 @@ static int mme_config_parse_file (mme_config_t * config_pP)
       if (config_setting_lookup_string (setting, LOG_CONFIG_STRING_S6A_LOG_LEVEL, (const char **)&astring))
         config_pP->log_config.s6a_log_level = OAILOG_LEVEL_STR2INT (astring);
 
+      // KMAC: Add support for T6A and Free Diameter
+      if (config_setting_lookup_string (setting, LOG_CONFIG_STRING_T6A_LOG_LEVEL, (const char **)&astring))
+        config_pP->log_config.t6a_log_level = OAILOG_LEVEL_STR2INT (astring);
+
+      if (config_setting_lookup_string (setting, LOG_CONFIG_STRING_FDIAM_LOG_LEVEL, (const char **)&astring))
+        config_pP->log_config.fdiam_log_level = OAILOG_LEVEL_STR2INT (astring);
+      // END
+
       if (config_setting_lookup_string (setting, LOG_CONFIG_STRING_GTPV2C_LOG_LEVEL, (const char **)&astring))
         config_pP->log_config.gtpv2c_log_level = OAILOG_LEVEL_STR2INT (astring);
 
@@ -360,7 +371,48 @@ static int mme_config_parse_file (mme_config_t * config_pP)
         config_pP->itti_config.queue_size = (uint32_t) aint;
       }
     }
+
+    // KMAC: Free Diameter config for both S6A and T6A
+    setting = config_setting_get_member (setting_mme, MME_CONFIG_STRING_FDIAM_CONFIG);
+
+    if (setting != NULL) {
+      if ((config_setting_lookup_string (setting, MME_CONFIG_STRING_FDIAM_CONF_FILE_PATH, (const char **)&astring))) {
+        if (astring != NULL) {
+          if (config_pP->fdiam_config.conf_file) {
+            bassigncstr(config_pP->fdiam_config.conf_file , astring);
+          } else {
+            config_pP->fdiam_config.conf_file = bfromcstr(astring);
+          }
+        }
+      }
+
+      if ((config_setting_lookup_string (setting, MME_CONFIG_STRING_S6A_HSS_HOSTNAME, (const char **)&astring))) {
+        if (astring != NULL) {
+          if (config_pP->fdiam_config.hss_host_name) {
+            bassigncstr(config_pP->fdiam_config.hss_host_name , astring);
+          } else {
+            config_pP->fdiam_config.hss_host_name = bfromcstr(astring);
+          }
+        } else
+          AssertFatal (1 == 0, "You have to provide a valid HSS hostname %s=...\n", MME_CONFIG_STRING_S6A_HSS_HOSTNAME);
+      }
+
+      if ((config_setting_lookup_string (setting, MME_CONFIG_STRING_T6A_SCEF_HOSTNAME, (const char **)&astring))) {
+        if (astring != NULL) {
+          if (config_pP->fdiam_config.scef_host_name) {
+            bassigncstr(config_pP->fdiam_config.scef_host_name , astring);
+          } else {
+            config_pP->fdiam_config.scef_host_name = bfromcstr(astring);
+          }
+        } else
+          AssertFatal (1 == 0, "You have to provide a valid HSS hostname %s=...\n", MME_CONFIG_STRING_T6A_SCEF_HOSTNAME);
+      }
+    }
+    // END
+
+    // KMAC: Below should go away with common Free Diameter config for S6A and T6A
     // S6A SETTING
+    /*
     setting = config_setting_get_member (setting_mme, MME_CONFIG_STRING_S6A_CONFIG);
 
     if (setting != NULL) {
@@ -381,10 +433,13 @@ static int mme_config_parse_file (mme_config_t * config_pP)
           } else {
             config_pP->s6a_config.hss_host_name = bfromcstr(astring);
           }
-        } else
+        } else {
           AssertFatal (1 == 0, "You have to provide a valid HSS hostname %s=...\n", MME_CONFIG_STRING_S6A_HSS_HOSTNAME);
+	}
       }
     }
+    */
+
     // SCTP SETTING
     setting = config_setting_get_member (setting_mme, MME_CONFIG_STRING_SCTP_CONFIG);
 
@@ -753,8 +808,12 @@ static void mme_config_display (mme_config_t * config_pP)
     }
   }
 
-  OAILOG_INFO (LOG_CONFIG, "- S6A:\n");
-  OAILOG_INFO (LOG_CONFIG, "    conf file ........: %s\n", bdata(config_pP->s6a_config.conf_file));
+  // KMAC: Free Diameter common config file for S6A and T6A
+  OAILOG_INFO (LOG_CONFIG, "- FDIAM:\n");
+  OAILOG_INFO (LOG_CONFIG, "    conf file ........: %s\n", bdata(config_pP->fdiam_config.conf_file));
+  //OAILOG_INFO (LOG_CONFIG, "- S6A:\n");
+  //OAILOG_INFO (LOG_CONFIG, "    conf file ........: %s\n", bdata(config_pP->s6a_config.conf_file));
+  // END
   OAILOG_INFO (LOG_CONFIG, "- Logging:\n");
   OAILOG_INFO (LOG_CONFIG, "    Output ..............: %s\n", bdata(config_pP->log_config.output));
   OAILOG_INFO (LOG_CONFIG, "    Output thread safe ..: %s\n", (config_pP->log_config.is_output_thread_safe) ? "true":"false");
@@ -769,6 +828,10 @@ static void mme_config_display (mme_config_t * config_pP)
   OAILOG_INFO (LOG_CONFIG, "    S/P-GW APP log level.: %s\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.spgw_app_log_level));
   OAILOG_INFO (LOG_CONFIG, "    S11 log level........: %s\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.s11_log_level));
   OAILOG_INFO (LOG_CONFIG, "    S6a log level........: %s\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.s6a_log_level));
+  // KMAC: T6A and Free Diameter logging
+  OAILOG_INFO (LOG_CONFIG, "    T6a log level........: %s\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.t6a_log_level));
+  OAILOG_INFO (LOG_CONFIG, "    FDIAM log level........: %s\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.fdiam_log_level));
+  // END
   OAILOG_INFO (LOG_CONFIG, "    UTIL log level.......: %s\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.util_log_level));
   OAILOG_INFO (LOG_CONFIG, "    MSC log level........: %s (MeSsage Chart)\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.msc_log_level));
   OAILOG_INFO (LOG_CONFIG, "    ITTI log level.......: %s (InTer-Task Interface)\n", OAILOG_LEVEL_INT2STR(config_pP->log_config.itti_log_level));

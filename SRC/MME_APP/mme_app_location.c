@@ -97,7 +97,7 @@ mme_app_handle_s6a_update_location_ans (
   OAILOG_FUNC_IN (LOG_MME_APP);
   DevAssert (ula_pP );
 
-  if (ula_pP->result.present == S6A_RESULT_BASE) {
+  if (ula_pP->result.present == FDIAM_RESULT_BASE) {
     if (ula_pP->result.choice.base != DIAMETER_SUCCESS) {
       /*
        * The update location procedure has failed. Notify the NAS layer

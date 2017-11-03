@@ -174,9 +174,12 @@ function main()
   echo 'include(${CMAKE_CURRENT_SOURCE_DIR}/../CMakeLists.txt)' >> $cmake_file
   
   cd ./BUILD
-  cmake  $cmake_args .. > /dev/null 
-  
+  echo "Issue cmake in BUILD...."
+  cmake  $cmake_args .. > /dev/null
+
+  echo "Invoking compilations..."
   compilations MME mme mme
+  echo "Completed compilations..."
 
   if [ $unit_tests -ne 0 ]; then
     make_test MME mme mme $verbose

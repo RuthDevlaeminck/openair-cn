@@ -349,7 +349,8 @@ nas_proc_authentication_info_answer (
      OAILOG_FUNC_RETURN (LOG_NAS_EMM, RETURNerror);
    }
 
-   if ((aia->result.present == S6A_RESULT_BASE)
+   // KMAC - Change result base to FDIAM
+   if ((aia->result.present == FDIAM_RESULT_BASE)
        && (aia->result.choice.base == DIAMETER_SUCCESS)) {
      /*
       * Check that list is not empty and contain at most MAX_EPS_AUTH_VECTORS elements
@@ -366,7 +367,8 @@ nas_proc_authentication_info_answer (
      /*
       * Inform NAS layer with the right failure
       */
-     if (aia->result.present == S6A_RESULT_BASE) {
+     // KMAC - Change result base to FDIAM
+     if (aia->result.present == FDIAM_RESULT_BASE) {
        rc = nas_proc_auth_param_fail (ctxt->ue_id, s6a_error_2_nas_cause (aia->result.choice.base, 0));
      } else {
        rc = nas_proc_auth_param_fail (ctxt->ue_id, s6a_error_2_nas_cause (aia->result.choice.experimental, 1));

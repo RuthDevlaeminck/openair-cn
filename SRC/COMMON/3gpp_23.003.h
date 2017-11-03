@@ -260,6 +260,24 @@ typedef struct rai_s {
 // 4.5  Location Number
 // 4.6  Composition of the Service Area Identification (SAI)
 
+// KMAC - Added CGI support
+typedef uint16_t    ci_t;                             /*!< \brief  Cell Identity (CI) is a fixed length code (2 octets) */
+
+typedef struct cgi_s {
+  plmn_t plmn;                                             /*!< \brief  <MCC> + <MNC>    */
+  lac_t  lac;                                              /*!< \brief  Location Area Code   */
+  ci_t   ci;                                               /*!< \brief  Cell Identity    */
+} cgi_t;
+
+// KMAC - Added SAI support
+typedef uint16_t    sac_t;                       /*!< \brief  Service Area Code (SAC) is a fixed length code (2 octets) */
+
+typedef struct sai_s {
+  plmn_t plmn;                                             /*!< \brief  <MCC> + <MNC>    */
+  lac_t  lac;                                              /*!< \brief  Location Area Code   */
+  sac_t  sac;                                             /*!< \brief  Service Area Code   */
+} sai_t;
+
 //------------------------------------------------------------------------------
 // 4.7  Closed Subscriber Group
 //------------------------------------------------------------------------------

@@ -84,6 +84,28 @@ int mme_app_send_s6a_update_location_req     (struct ue_context_s * const ue_con
 
 int mme_app_handle_s6a_update_location_ans   (const s6a_update_location_ans_t * const ula_pP);
 
+// KMAC - T6A support
+//int mme_app_send_t6a_report_info_req         (struct ue_context_s * const ue_context_pP);
+
+//int mme_app_handle_t6a_report_info_ans       (const t6a_report_info_ans_t * const ria_pP);
+
+//int mme_app_send_t6a_config_info_req         (struct ue_context_s * const ue_context_pP);
+
+//int mme_app_handle_t6a_config_info_ans       (const t6a_config_info_ans_t * const cia_pP);
+
+//int mme_app_send_t6a_conn_mgmt_req           (struct ue_context_s * const ue_context_pP);
+
+//int mme_app_handle_t6a_conn_mgmt_ans         (const t6a_conn_mgmt_ans_t * const cma_pP);
+
+//int mme_app_send_t6a_mo_data_req             (struct ue_context_s * const ue_context_pP);
+
+//int mme_app_handle_t6a_mo_data_ans           (const t6a_mo_data_ans_t * const moa_pP);
+
+//int mme_app_send_t6a_mt_data_req             (struct ue_context_s * const ue_context_pP);
+
+//int mme_app_handle_t6a_mt_data_ans           (const t6a_mt_data_ans_t * const mta_pP);
+// END
+
 int mme_app_handle_nas_pdn_connectivity_req  ( itti_nas_pdn_connectivity_req_t * const nas_pdn_connectivity_req_p);
 
 void mme_app_handle_detach_req (const itti_nas_detach_req_t * const detach_req_p);

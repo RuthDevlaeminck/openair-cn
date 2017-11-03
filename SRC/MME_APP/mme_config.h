@@ -62,9 +62,20 @@
 #define MME_CONFIG_STRING_INTERTASK_INTERFACE_CONFIG     "INTERTASK_INTERFACE"
 #define MME_CONFIG_STRING_INTERTASK_INTERFACE_QUEUE_SIZE "ITTI_QUEUE_SIZE"
 
+// KMAC: Config file is for Free Diameter. Will be common for S6A and T6A.
+#define MME_CONFIG_STRING_FDIAM_CONFIG                     "FDIAM"
+#define MME_CONFIG_STRING_FDIAM_CONF_FILE_PATH             "FDIAM_CONF"
+// END
+
+// KMAC: S6A specific config file may not be needed any longer
 #define MME_CONFIG_STRING_S6A_CONFIG                     "S6A"
 #define MME_CONFIG_STRING_S6A_CONF_FILE_PATH             "S6A_CONF"
+
 #define MME_CONFIG_STRING_S6A_HSS_HOSTNAME               "HSS_HOSTNAME"
+
+// KMAC: Add SCEF HostName
+#define MME_CONFIG_STRING_T6A_SCEF_HOSTNAME              "SCEF_HOSTNAME"
+// END
 
 #define MME_CONFIG_STRING_SCTP_CONFIG                    "SCTP"
 #define MME_CONFIG_STRING_SCTP_INSTREAMS                 "SCTP_INSTREAMS"
@@ -115,7 +126,6 @@ typedef enum {
 typedef struct mme_config_s {
   /* Reader/writer lock for this configuration */
   pthread_rwlock_t rw_lock;
-
 
   bstring config_file;
   bstring pid_dir;
@@ -179,10 +189,20 @@ typedef struct mme_config_s {
     ipv4_nbo_t sgw_s11;
   } ipv4;
 
+  // KMAC:  Add Free Diameter config struct. Needs to support both S6A and T6A
   struct {
     bstring conf_file;
     bstring hss_host_name;
-  } s6a_config;
+    bstring scef_host_name;
+  } fdiam_config;
+  // END
+
+  // KMAC: Below struct should go away since we now have fdiam_config
+  // struct {
+  //  bstring conf_file;
+  //  bstring hss_host_name;
+  // } s6a_config;
+
   struct {
     uint32_t  queue_size;
     bstring   log_file;

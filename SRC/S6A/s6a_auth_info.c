@@ -29,6 +29,7 @@
 #include "conversions.h"
 
 #include "intertask_interface.h"
+#include "fdiam_defs.h"
 #include "s6a_defs.h"
 #include "s6a_messages.h"
 #include "msc.h"
@@ -232,15 +233,15 @@ s6a_aia_cb (
 
   if (avp) {
     CHECK_FCT (fd_msg_avp_hdr (avp, &hdr));
-    s6a_auth_info_ans_p->result.present = S6A_RESULT_BASE;
+    s6a_auth_info_ans_p->result.present = FDIAM_RESULT_BASE;
     s6a_auth_info_ans_p->result.choice.base = hdr->avp_value->u32;
-    MSC_LOG_TX_MESSAGE (MSC_S6A_MME, MSC_NAS_MME, NULL, 0, "0 S6A_AUTH_INFO_ANS imsi %s %s", s6a_auth_info_ans_p->imsi, retcode_2_string (s6a_auth_info_ans_p->result.choice.base));
+    MSC_LOG_TX_MESSAGE (MSC_S6A_MME, MSC_NAS_MME, NULL, 0, "0 S6A_AUTH_INFO_ANS imsi %s %s", s6a_auth_info_ans_p->imsi, fdiam_retcode_2_string (s6a_auth_info_ans_p->result.choice.base));
 
     if (hdr->avp_value->u32 != ER_DIAMETER_SUCCESS) {
-      OAILOG_ERROR (LOG_S6A, "Got error %u:%s\n", hdr->avp_value->u32, retcode_2_string (hdr->avp_value->u32));
+      OAILOG_ERROR (LOG_S6A, "Got error %u:%s\n", hdr->avp_value->u32, fdiam_retcode_2_string (hdr->avp_value->u32));
       skip_auth_res = 1;
     } else {
-      OAILOG_DEBUG (LOG_S6A, "Received S6A Result code %u:%s\n", s6a_auth_info_ans_p->result.choice.base, retcode_2_string (s6a_auth_info_ans_p->result.choice.base));
+      OAILOG_DEBUG (LOG_S6A, "Received S6A Result code %u:%s\n", s6a_auth_info_ans_p->result.choice.base, fdiam_retcode_2_string (s6a_auth_info_ans_p->result.choice.base));
     }
   } else {
     /*
@@ -255,9 +256,9 @@ s6a_aia_cb (
        * * * * NOTE: contrary to result-code, the experimental-result is a grouped
        * * * * AVP and requires parsing its childs to get the code back.
        */
-      s6a_auth_info_ans_p->result.present = S6A_RESULT_EXPERIMENTAL;
-      s6a_parse_experimental_result (avp, &s6a_auth_info_ans_p->result.choice.experimental);
-      MSC_LOG_TX_MESSAGE (MSC_S6A_MME, MSC_NAS_MME, NULL, 0, "0 S6A_AUTH_INFO_ANS imsi %s %s", s6a_auth_info_ans_p->imsi, experimental_retcode_2_string (s6a_auth_info_ans_p->result.choice.experimental));
+      s6a_auth_info_ans_p->result.present = FDIAM_RESULT_EXPERIMENTAL;
+      fdiam_parse_experimental_result (avp, &s6a_auth_info_ans_p->result.choice.experimental);
+      MSC_LOG_TX_MESSAGE (MSC_S6A_MME, MSC_NAS_MME, NULL, 0, "0 S6A_AUTH_INFO_ANS imsi %s %s", s6a_auth_info_ans_p->imsi, fdiam_experimental_retcode_2_string (s6a_auth_info_ans_p->result.choice.experimental));
       skip_auth_res = 1;
     } else {
       /*
@@ -331,7 +332,8 @@ s6a_generate_authentication_info_req (
    * Destination Host
    */
   {
-    bstring                                 host = bstrcpy(mme_config.s6a_config.hss_host_name);
+    // KMAC: Update to common fdiam_config
+    bstring                                 host = bstrcpy(mme_config.fdiam_config.hss_host_name);
 
     bconchar(host, '.');
     bconcat (host, mme_config.realm);

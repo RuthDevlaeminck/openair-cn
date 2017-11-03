@@ -144,6 +144,15 @@ typedef enum {
    && ((((__const uint32_t *) (a))[2] & (((__const uint32_t *) (m))[2])) == (((__const uint32_t *) (b))[2] & (((__const uint32_t *) (m))[2])))  \
    && ((((__const uint32_t *) (a))[3] & (((__const uint32_t *) (m))[3])) == (((__const uint32_t *) (b))[3] & (((__const uint32_t *) (m))[3]))))
 
+// KMAC - Move Flag macros to common location
+#define FLAG_IS_SET(x, flag)   \
+    ((x) & (flag))
+
+#define FLAGS_SET(x, flags) \
+    ((x) |= (flags))
+
+#define FLAGS_CLEAR(x, flags)   \
+    ((x) = (x) & ~(flags))
 
 #ifndef UNUSED
 #define UNUSED(x) (void)(x)

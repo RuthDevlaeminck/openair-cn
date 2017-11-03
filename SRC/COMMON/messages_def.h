@@ -37,6 +37,8 @@
 #include "s11_messages_def.h"
 #include "s1ap_messages_def.h"
 #include "s6a_messages_def.h"
+// KMAC: Add T6A Protocol
+#include "t6a_messages_def.h"
 #include "sctp_messages_def.h"
 #include "sgw_messages_def.h"
 #include "udp_messages_def.h"

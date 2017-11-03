@@ -29,7 +29,7 @@
 #ifndef FILE_S6A_MESSAGES_TYPES_SEEN
 #define FILE_S6A_MESSAGES_TYPES_SEEN
 
-
+#include "fdiam_defs.h"
 
 #define S6A_UPDATE_LOCATION_REQ(mSGpTR)  (mSGpTR)->ittiMsg.s6a_update_location_req
 #define S6A_UPDATE_LOCATION_ANS(mSGpTR)  (mSGpTR)->ittiMsg.s6a_update_location_ans
@@ -59,8 +59,9 @@ typedef struct s6a_update_location_req_s {
   // missing                           // destination realm
 } s6a_update_location_req_t;
 
+// KMAC - Update s6a_result to fdiam_result
 typedef struct s6a_update_location_ans_s {
-  s6a_result_t        result;              // Result of the update location request procedure
+  fdiam_result_t        result;              // Result of the update location request procedure
   subscription_data_t subscription_data;   // subscriber status,
   // Maximum Requested Bandwidth Uplink, downlink
   // access restriction data
@@ -95,7 +96,8 @@ typedef struct s6a_auth_info_ans_s {
   uint8_t    imsi_length;
 
   /* Result of the authentication information procedure */
-  s6a_result_t result;
+  // KMAC - Update s6a_result to fdiam_result
+  fdiam_result_t result;
   /* Authentication info containing the vector(s) */
   authentication_info_t auth_info;
 } s6a_auth_info_ans_t;

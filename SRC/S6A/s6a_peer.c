@@ -88,8 +88,6 @@ int
 s6a_fd_new_peer (
   void)
 {
-  char                                    host_name[100];
-  size_t                                  host_name_len = 0;
   int                                     ret = 0;
 #if FD_CONF_FILE_NO_CONNECT_PEERS_CONFIGURED
   struct peer_info                        info = {0};
@@ -100,6 +98,8 @@ s6a_fd_new_peer (
     return RETURNerror;
   }
 
+  // KMAC - Moved configurating local host DiameterIdentity to common fdiam_core_if
+  /*
   if (fd_g_config->cnf_diamid ) {
     free (fd_g_config->cnf_diamid);
     fd_g_config->cnf_diamid_len = 0;
@@ -113,7 +113,10 @@ s6a_fd_new_peer (
   fd_g_config->cnf_diamid = strdup (host_name);
   fd_g_config->cnf_diamid_len = strlen (fd_g_config->cnf_diamid);
   OAILOG_DEBUG (LOG_S6A, "Diameter identity of MME: %s with length: %zd\n", fd_g_config->cnf_diamid, fd_g_config->cnf_diamid_len);
-  bstring                                 hss_name = bstrcpy(mme_config.s6a_config.hss_host_name);
+  */
+
+  // KMAC: Free Diameter common config struct
+  bstring                                 hss_name = bstrcpy(mme_config.fdiam_config.hss_host_name);
   bconchar(hss_name, '.');
   bconcat (hss_name, mme_config.realm);
 
@@ -165,7 +168,10 @@ s6a_fd_new_peer (
             bstring  filename = bformat("/tmp/mme_%d.status", g_pid);
             fp = fopen(bdata(filename), "w+");
             bdestroy(filename);
-            fprintf(fp, "STARTED\n");
+            // KMAC: Improve status message
+            fprintf(fp, "ESTABLISHED Connection to HSS\n");
+            //fprintf(fp, "STARTED\n");
+            // END
             fflush(fp);
             fclose(fp);
           }

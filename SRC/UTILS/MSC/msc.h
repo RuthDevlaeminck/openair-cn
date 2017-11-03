@@ -59,8 +59,10 @@ typedef enum {
   MSC_SP_GWAPP_MME,
   MSC_S11_MME,
   MSC_S6A_MME,
+  MSC_T6A_MME,     // KMAC - T6A
   MSC_SGW,
   MSC_HSS,
+  MSC_SCEF,        // KMAC - SCEF
   MAX_MSC_PROTOS,
 } msc_proto_t;
 

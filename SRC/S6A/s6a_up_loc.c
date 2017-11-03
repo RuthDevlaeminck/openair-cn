@@ -28,10 +28,10 @@
 #include "conversions.h"
 #include "intertask_interface.h"
 #include "s6a_defs.h"
+#include "fdiam_defs.h"
 #include "s6a_messages.h"
 #include "msc.h"
 #include "log.h"
-
 
 int
 s6a_ula_cb (
@@ -76,12 +76,13 @@ s6a_ula_cb (
 
   if (avp_p) {
     CHECK_FCT (fd_msg_avp_hdr (avp_p, &hdr_p));
-    s6a_update_location_ans_p->result.present = S6A_RESULT_BASE;
+    s6a_update_location_ans_p->result.present = FDIAM_RESULT_BASE;
     s6a_update_location_ans_p->result.choice.base = hdr_p->avp_value->u32;
-    MSC_LOG_TX_MESSAGE (MSC_S6A_MME, MSC_MMEAPP_MME, NULL, 0, "0 S6A_UPDATE_LOCATION_ANS imsi %s %s", s6a_update_location_ans_p->imsi, retcode_2_string (hdr_p->avp_value->u32));
 
+    MSC_LOG_TX_MESSAGE (MSC_S6A_MME, MSC_MMEAPP_MME, NULL, 0, "0 S6A_UPDATE_LOCATION_ANS imsi %s %s", s6a_update_location_ans_p->imsi, fdiam_retcode_2_string (hdr_p->avp_value->u32));
+    
     if (hdr_p->avp_value->u32 != ER_DIAMETER_SUCCESS) {
-      OAILOG_ERROR (LOG_S6A, "Got error %u:%s\n", hdr_p->avp_value->u32, retcode_2_string (hdr_p->avp_value->u32));
+      OAILOG_ERROR (LOG_S6A, "Got error %u:%s\n", hdr_p->avp_value->u32, fdiam_retcode_2_string (hdr_p->avp_value->u32));
       goto err;
     }
   } else {
@@ -97,8 +98,8 @@ s6a_ula_cb (
        * * * * NOTE: contrary to result-code, the experimental-result is a grouped
        * * * * AVP and requires parsing its childs to get the code back.
        */
-      s6a_update_location_ans_p->result.present = S6A_RESULT_EXPERIMENTAL;
-      s6a_parse_experimental_result (avp_p, &s6a_update_location_ans_p->result.choice.experimental);
+      s6a_update_location_ans_p->result.present = FDIAM_RESULT_EXPERIMENTAL;
+      fdiam_parse_experimental_result (avp_p, &s6a_update_location_ans_p->result.choice.experimental);
       goto err;
     } else {
       /*
@@ -151,8 +152,6 @@ err:
   return RETURNok;
 }
 
-
-
 int
 s6a_generate_update_location (
   s6a_update_location_req_t * ulr_pP)
@@ -198,7 +197,8 @@ s6a_generate_update_location (
    * Destination Host
    */
   {
-    bstring                                 host = bstrcpy(mme_config.s6a_config.hss_host_name);
+    // KMAC: Free Diameter common config struct
+    bstring                                 host = bstrcpy(mme_config.fdiam_config.hss_host_name);
 
     bconchar(host, '.');
     bconcat (host, mme_config.realm);

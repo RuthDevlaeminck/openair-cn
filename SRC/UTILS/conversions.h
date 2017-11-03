@@ -260,6 +260,60 @@ do {                                                                    \
           + pLMN.mnc_digit2 * 10 + pLMN.mnc_digit1;                       \
 } while(0)
 
+#define ECGI_T_TO_TBCD(eCGI, tBCDsTRING)                                \
+do {                                                                    \
+   tBCDsTRING[0] = eCGI.enb_id >> 12;					\
+   tBCDsTRING[1] = (eCGI.enb_id >> 4) & 0xff;				\
+   tBCDsTRING[2] = ((eCGI.enb_id & 0x0f) << 4) | (eCGI.cell_id >> 4);	\
+   tBCDsTRING[3] = (eCGI.cell_id & 0x0f) << 4;                          \
+ } while(0)
+
+#define MEID_T_TO_TBCD(mEID, tBCDsTRING)            \
+do {                                                \
+  tBCDsTRING[0] = mEID.regionalCode;                \
+  tBCDsTRING[1] = (mEID.manuCode >> 16) & 0xff;     \
+  tBCDsTRING[2] = (mEID.manuCode >> 8) & 0xff;      \
+  tBCDsTRING[3] = mEID.manuCode & 0xff;             \
+  tBCDsTRING[4] = (mEID.serialNum >> 16) & 0xff;    \
+  tBCDsTRING[5] = (mEID.serialNum >> 8) & 0xff;     \
+  tBCDsTRING[6] = mEID.serialNum & 0xff;            \
+} while(0)
+
+#define GEOGRAPHICAL_T_TO_TBCD(gEOG, tBCDsTRING)          \
+do {                                                      \
+  tBCDsTRING[0] = gEOG.typeOfShape;                       \
+  tBCDsTRING[1] = gEOG.degreesOfLatitude[0];              \
+  tBCDsTRING[2] = gEOG.degressOfLatitude[1];              \
+  tBCDsTRING[3] = gEOG.degreesOfLatitude[2];              \
+  tBCDsTRING[4] = gEOG.degreesOfLongitude[0];             \
+  tBCDsTRING[5] = gEOG.degressOfLongitude[1];             \
+  tBCDsTRING[6] = gEOG.degreesOfLongitude[2];             \
+  tBCDsTRING[7] = gEOG.uncertainty_code;                  \
+} while (0)
+
+#define GEODETIC_T_TO_TBCD(gEOD, tBCDsTRING)              \
+do {                                                      \
+  tBCDsTRING[0] = gEOD.screenAndPresentInd;               \
+  tBCDsTRING[1] = gEOD.typeOfShape;                       \
+  tBCDsTRING[2] = gEOD.degreesOfLatitude[0];              \
+  tBCDsTRING[3] = gEOD.degressOfLatitude[1];              \
+  tBCDsTRING[4] = gEOD.degreesOfLatitude[2];              \
+  tBCDsTRING[5] = gEOD.degreesOfLongitude[0];             \
+  tBCDsTRING[6] = gEOD.degressOfLongitude[1];             \
+  tBCDsTRING[7] = gEOD.degreesOfLongitude[2];             \
+  tBCDsTRING[8] = gEOD.uncertainty_code;                  \
+  tBCDsTRING[9] = gEOD.confidence;                        \
+} while (0)
+
+#define UTC_T_TO_TBCD(uTC, tBCDsTRING)              \
+do {                                                \
+tBCDsTRING[0] = (uTC >> 24) & 0xFF;                 \
+tBCDsTRING[1] = (uTC >> 16) & 0xFF;                 \
+tBCDsTRING[2] = (uTC >> 8) & 0xFF;                  \
+tBCDsTRING[3] = uTC & 0xFF;                         \
+} while (0)
+
+
 /*
  * TS 36.413 v10.9.0 section 9.2.1.37:
  * Macro eNB ID:

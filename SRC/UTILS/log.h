@@ -66,6 +66,11 @@ extern int fd_g_debug_lvl;
 #define LOG_CONFIG_STRING_UDP_LOG_LEVEL                  "UDP_LOG_LEVEL"
 #define LOG_CONFIG_STRING_UTIL_LOG_LEVEL                 "UTIL_LOG_LEVEL"
 
+/* KMAC: Add log level for T6A and Free Diameter */
+#define LOG_CONFIG_STRING_T6A_LOG_LEVEL                  "T6A_LOG_LEVEL"
+#define LOG_CONFIG_STRING_FDIAM_LOG_LEVEL                "FDIAM_LOG_LEVEL"
+/* END */
+
 typedef enum {
   MIN_LOG_ENV = 0,
   LOG_MME_ENV = MIN_LOG_ENV,
@@ -106,6 +111,10 @@ typedef enum {
   LOG_CONFIG,
   LOG_MSC,
   LOG_ITTI,
+  /* KMAC: Add support for T6a and Free Diameter */
+  LOG_T6A,
+  LOG_FDIAM,
+  /* END */
   MAX_LOG_PROTOS,
 } log_proto_t;
 
@@ -131,6 +140,7 @@ typedef struct log_queue_item_s {
 /*! \struct  log_config_t
 * \brief Structure containing the dynamically configurable parameters of the Logging facilities.
 * This structure is filled by configuration facilities when parsing a configuration file.
+* KMAC: Log level per MME task and protocol layer
 */
 typedef struct log_config_s {
   bstring       output;             /*!< \brief Where logs go, choice in { "CONSOLE", "`path to file`", "`IPv4@`:`TCP port num`"} . */
@@ -145,6 +155,10 @@ typedef struct log_config_s {
   log_level_t   spgw_app_log_level; /*!< \brief SP-GW ITTI task log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */
   log_level_t   s11_log_level;      /*!< \brief S11 ITTI task log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */
   log_level_t   s6a_log_level;      /*!< \brief S6a layer log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */
+  /* KMAC: Add support for T6a and Free Diameter */
+  log_level_t   t6a_log_level;      /*!< \brief T6a layer log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */
+  log_level_t   fdiam_log_level;    /*!< \brief Free Diameter layer log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */
+  /* END */
   log_level_t   util_log_level;     /*!< \brief Misc utilities log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */
   log_level_t   msc_log_level;      /*!< \brief MSC utility log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */
   log_level_t   itti_log_level;     /*!< \brief ITTI layer log level starting from OAILOG_LEVEL_EMERGENCY up to MAX_LOG_LEVEL (no log) */

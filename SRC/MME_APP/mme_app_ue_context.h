@@ -46,6 +46,8 @@
 #include "s1ap_messages_types.h"
 #include "nas_messages_types.h"
 #include "s6a_messages_types.h"
+// KMAC - T6A Support
+#include "t6a_messages_types.h"
 #include "security_types.h"
 #include "sgw_ie_defs.h"
 

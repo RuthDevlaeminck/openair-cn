@@ -50,10 +50,10 @@
 #include "nas_defs.h"
 #include "s11_mme.h"
 
-/* FreeDiameter headers for support of S6A interface */
-#include <freeDiameter/freeDiameter-host.h>
-#include <freeDiameter/libfdcore.h>
+/* KMAC: FreeDiameter to support of S6A and T6A interface */
+#include "fdiam_defs.h"
 #include "s6a_defs.h"
+#include "t6a_defs.h"
 
 #include "oai_mme.h"
 #include "pid_file.h"
@@ -135,6 +135,10 @@ main (
           NULL,
 #endif
           NULL));
+
+  // KMAC: Initialize Free Diameter interface
+  CHECK_INIT_RETURN (fdiam_init (&mme_config));
+
   MSC_INIT (MSC_MME, THREAD_MAX + TASK_MAX);
   CHECK_INIT_RETURN (nas_init (&mme_config));
   CHECK_INIT_RETURN (sctp_init (&mme_config));
@@ -149,6 +153,10 @@ main (
    * Handle signals here
    */
   itti_wait_tasks_end ();
+
+  // KMAC: Free Diameter terminate
+  fdiam_terminate();
+
   pid_file_unlock();
   free_wrapper((void**) &pid_file_name);
   return 0;
