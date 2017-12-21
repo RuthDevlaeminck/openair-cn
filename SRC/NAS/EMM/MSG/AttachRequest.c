@@ -254,7 +254,6 @@ decode_attach_request (
       attach_request->presencemask |= ATTACH_REQUEST_MS_NETWORK_FEATURE_SUPPORT_PRESENT;
       break;
 
-    // RUTH
     case ATTACH_REQUEST_DEVICE_PROPERTIES_IEI:
       // Skip this IE. Not supported. It is relevant for delay tolerant devices such as IoT devices.
       OAILOG_INFO (LOG_NAS_EMM, "Device Properties IE in PDN Connectivity Request is not supported. Skipping this IE. IE = %x\n", ieiDecoded);

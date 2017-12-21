@@ -28,7 +28,6 @@
 #include "intertask_interface.h"
 
 
-// TODO: BJ
 #define S1AP_UE_RADIOCAPABILITY_MAX_SIZE 1300
 
 /** \brief Handle decoded incoming messages from SCTP
