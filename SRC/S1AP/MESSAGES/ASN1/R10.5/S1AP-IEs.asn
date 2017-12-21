@@ -1375,6 +1375,19 @@ S1ap-UESecurityCapabilities ::= SEQUENCE {
 ...
 }
 
+S1ap-UserLocationInformation ::= SEQUENCE {
+    eutran-cgi              S1ap-EUTRAN-CGI,
+    tai                     S1ap-TAI,
+    -- iE-Extensions           ProtocolExtensionContainer { { S1ap-UserLocationInformation-ExtIEs} }    OPTIONAL,
+    iE-Extensions           S1ap-IE-Extensions    OPTIONAL,
+    ...
+}
+
+--S1ap-UserLocationInformation-ExtIEs S1AP-PROTOCOL-EXTENSION ::= {
+--    ...
+--}
+
+
 -- V
 -- W
 
