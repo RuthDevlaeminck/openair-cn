@@ -916,7 +916,7 @@ mme_app_handle_s1ap_ue_context_release_req (
   _mme_app_handle_s1ap_ue_context_release(s1ap_ue_context_release_req->mme_ue_s1ap_id,
                                           s1ap_ue_context_release_req->enb_ue_s1ap_id,
                                           s1ap_ue_context_release_req->enb_id,
-                                          s1ap_ue_context_release_req->rel_cause); // Steve2
+                                          s1ap_ue_context_release_req->rel_cause);
 }
 
 void

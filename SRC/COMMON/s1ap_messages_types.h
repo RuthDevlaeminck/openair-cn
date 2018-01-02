@@ -93,13 +93,14 @@ enum s1cause {
   S1AP_RADIO_EUTRAN_GENERATED_REASON,
   S1AP_IMPLICIT_CONTEXT_RELEASE,
   S1AP_SCTP_SHUTDOWN_OR_RESET,
-  S1AP_USER_INACTIVITY_TIMEOUT  // Steve2
+  S1AP_USER_INACTIVITY_TIMEOUT
 };
+
 typedef struct itti_s1ap_ue_context_release_req_s {
   mme_ue_s1ap_id_t  mme_ue_s1ap_id;
   enb_ue_s1ap_id_t  enb_ue_s1ap_id:24;
   uint32_t         enb_id;
-  enum s1cause     rel_cause; // Steve2
+  enum s1cause     rel_cause;
 } itti_s1ap_ue_context_release_req_t;
 
 typedef struct itti_s1ap_ue_context_release_command_s {

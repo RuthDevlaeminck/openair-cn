@@ -73,7 +73,7 @@ typedef struct itti_mme_app_connection_establishment_cnf_s {
   uint16_t                security_capabilities_encryption_algorithms;
   uint16_t                security_capabilities_integrity_algorithms;
 
-  char                    ue_radio_capabilities[2048]; // Steve2: increase the size to temporarily fix the Service Request problem due to invalid UE Ref  
+  char                    ue_radio_capabilities[2048]; // Increased the size to temporarily fix the Service Request problem due to invalid UE Ref  
   int                     ue_radio_cap_length;
 
   itti_nas_conn_est_cnf_t nas_conn_est_cnf;

@@ -934,8 +934,7 @@ sgw_release_all_enb_related_information (
 
   OAILOG_FUNC_IN(LOG_SPGW_APP);
 
-  // FIXME: Steve2
-  // Issue:
+  // Fixed the following issue:
   // - When the Inactivity timer expires, the eNB sends UEContextReleaseRequest to the network.  The SGW does not delete the S1U tunnel in the kernel.  
   // - As part of the Service Request procedure, the eNB will create a new S1U TEID but the SGW still uses the old tunnel in the kernel. Therefore, ping packets 
   //   can go out to the Internet but cannot come back to the eNB.

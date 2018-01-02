@@ -380,8 +380,7 @@ mme_app_handle_conn_est_cnf (
   if ((current_bearer_p->s_gw_address.pdn_type == IPv4)
       || (current_bearer_p->s_gw_address.pdn_type == IPv4_AND_v6)) {
     establishment_cnf_p->bearer_s1u_sgw_fteid.ipv4 = 1;
-
-       memcpy (&establishment_cnf_p->bearer_s1u_sgw_fteid.ipv4_address, current_bearer_p->s_gw_address.address.ipv4_address, 4);
+    memcpy (&establishment_cnf_p->bearer_s1u_sgw_fteid.ipv4_address, current_bearer_p->s_gw_address.address.ipv4_address, 4);
   }
 
   if ((current_bearer_p->s_gw_address.pdn_type == IPv6)
@@ -934,7 +933,6 @@ mme_app_handle_release_access_bearers_resp (
   mme_app_itti_ue_context_release(ue_context_p, ue_context_p->ue_context_rel_cause);
 
 
-  // Steve2
   if ( (ue_context_p->ue_context_rel_cause == S1AP_SCTP_SHUTDOWN_OR_RESET) ||
        (ue_context_p->ue_context_rel_cause == S1AP_USER_INACTIVITY_TIMEOUT) ) {
 
