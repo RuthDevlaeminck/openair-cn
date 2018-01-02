@@ -718,6 +718,19 @@ s1ap_mme_handle_ue_context_release_request (
       S1AP_UE_CONTEXT_RELEASE_REQ (message_p).mme_ue_s1ap_id = ue_ref_p->mme_ue_s1ap_id;
       S1AP_UE_CONTEXT_RELEASE_REQ (message_p).enb_ue_s1ap_id = ue_ref_p->enb_ue_s1ap_id;
       S1AP_UE_CONTEXT_RELEASE_REQ (message_p).enb_id         = ue_ref_p->enb->enb_id;
+
+      switch (cause_type) { 
+        case S1ap_Cause_PR_radioNetwork:
+          if (S1ap_CauseRadioNetwork_user_inactivity == cause_value)  
+            S1AP_UE_CONTEXT_RELEASE_REQ (message_p).rel_cause = S1AP_USER_INACTIVITY_TIMEOUT; 
+          else
+            S1AP_UE_CONTEXT_RELEASE_REQ (message_p).rel_cause = S1AP_RADIO_EUTRAN_GENERATED_REASON;
+	    break;
+
+        default:
+          S1AP_UE_CONTEXT_RELEASE_REQ (message_p).rel_cause = S1AP_RADIO_EUTRAN_GENERATED_REASON;
+      }
+
       MSC_LOG_TX_MESSAGE (MSC_S1AP_MME, MSC_MMEAPP_MME, NULL, 0, "0 S1AP_UE_CONTEXT_RELEASE_REQ mme_ue_s1ap_id " MME_UE_S1AP_ID_FMT " ",
               S1AP_UE_CONTEXT_RELEASE_REQ (message_p).mme_ue_s1ap_id);
       rc =  itti_send_msg_to_task (TASK_MME_APP, INSTANCE_DEFAULT, message_p);
@@ -773,6 +786,10 @@ s1ap_mme_generate_ue_context_release_command (
   case S1AP_RADIO_EUTRAN_GENERATED_REASON:cause_type = S1ap_Cause_PR_radioNetwork;
     cause_value = S1ap_CauseRadioNetwork_release_due_to_eutran_generated_reason;
     break;
+  case S1AP_USER_INACTIVITY_TIMEOUT:cause_type = S1ap_Cause_PR_radioNetwork;
+    cause_value = S1ap_CauseRadioNetwork_user_inactivity;
+    break;
+
   default:
     AssertFatal(false, "Unknown cause for context release");
     break;

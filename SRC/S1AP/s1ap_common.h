@@ -227,6 +227,7 @@ inline void ASN_DEBUG(const char *fmt, ...);
 #include "S1ap-CriticalityDiagnostics.h"
 #include "S1ap-CriticalityDiagnostics-IE-List.h"
 #include "S1ap-CriticalityDiagnostics-IE-Item.h"
+#include "S1ap-UserLocationInformation.h"
 #include "S1ap-ResetType.h"
 #include "S1ap-Inter-SystemInformationTransferType.h"
 #include "S1ap-UE-S1AP-IDs.h"

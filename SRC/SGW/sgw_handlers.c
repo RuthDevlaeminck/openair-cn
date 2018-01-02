@@ -930,8 +930,21 @@ sgw_release_all_enb_related_information (
   void **unused_resultP)
 {
   sgw_eps_bearer_entry_t                 *eps_bearer_entry_p = (sgw_eps_bearer_entry_t *) dataP;
+  int                                     rv = RETURNok;
 
   OAILOG_FUNC_IN(LOG_SPGW_APP);
+
+  // Fixed the following issue:
+  // - When the Inactivity timer expires, the eNB sends UEContextReleaseRequest to the network.  The SGW does not delete the S1U tunnel in the kernel.  
+  // - As part of the Service Request procedure, the eNB will create a new S1U TEID but the SGW still uses the old tunnel in the kernel. Therefore, ping packets 
+  //   can go out to the Internet but cannot come back to the eNB.
+
+  rv = gtp_mod_kernel_tunnel_del(eps_bearer_entry_p->s_gw_teid_S1u_S12_S4_up, eps_bearer_entry_p->enb_teid_S1u);
+
+  if (RETURNok != rv) {
+        OAILOG_ERROR (LOG_SPGW_APP, "ERROR in deleting TUNNEL\n");
+  }
+
   if ( eps_bearer_entry_p) {
     memset (&eps_bearer_entry_p->enb_ip_address_S1u, 0, sizeof (eps_bearer_entry_p->enb_ip_address_S1u));
     eps_bearer_entry_p->enb_teid_S1u = 0;
